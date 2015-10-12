@@ -2,7 +2,7 @@
 
 set $mod Mod4
 focus_follows_mouse yes
-popup_during_fullscreen smart
+popup_during_fullscreen smart 
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -101,6 +101,7 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+
 ## Volume Binding
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@  +2% #increase 
@@ -110,11 +111,13 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle # mute soun
 ## Shutdown / Lock / Suspend
 bindsym $mod+l exec dm-tool lock
 
+
 # SCRATCH PAD
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 # Show the sup-mail scratchpad window, if any.
 #bindsym mod4+s [title="^Sup ::"] scratchpad show
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -143,7 +146,6 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-# Always make Calculator floating
 for_window [class="(?i)gnome-calculator"] floating enable
 
 assign [class="Firefox"] 1:Web
@@ -152,18 +154,25 @@ assign [class="Pidgin"] 3:Chat
 
 bindsym $mod+x [class="Firefox"] focus
 
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
         status_command i3status
 }
 
+
 exec --no-startup-id /usr/bin/nm-applet &
 exec --no-startup-id /usr/bin/owncloud &
 exec --no-startup-id /usr/bin/pulseaudio --start
 exec --no-startup-id /usr/bin/pa-applet &
 exec --no-startup-id pcmanfm -d &
+exec --no-startup-id /usr/bin/shutter --min_at_startup &
 
+exec --no-startup-id i3-msg 'workspace 2:Mail; exec gtk-launch chrome-https___mail.google.com_mail_u_0.desktop; workspace 1:Web'
+exec --no-startup-id i3-msg 'workspace 2:Mail; exec gtk-launch chrome-https___mail.google.com_mail_u_1.desktop; workspace 1:Web'
+exec --no-startup-id i3-msg 'workspace 10; exec gtk-launch chrome-http___piranhaa.net_subsonic_index.view.desktop; workspace 1:Web'
 
 #Disable caps lock
 exec setxkbmap -option caps:none
+
