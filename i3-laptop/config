@@ -173,6 +173,8 @@ exec --no-startup-id i3-msg 'workspace 2:Mail; exec gtk-launch chrome-https___ma
 exec --no-startup-id i3-msg 'workspace 2:Mail; exec gtk-launch chrome-https___mail.google.com_mail_u_1.desktop; workspace 1:Web'
 exec --no-startup-id i3-msg 'workspace 10; exec gtk-launch chrome-http___piranhaa.net_subsonic_index.view.desktop; workspace 1:Web'
 
-#Disable caps lock
+# Disable caps lock
 exec setxkbmap -option caps:none
 
+# Change menu key to Super_L
+exec xmodmap -e "keycode 135 = Super_L"
