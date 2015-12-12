@@ -168,7 +168,8 @@ exec --no-startup-id /usr/bin/pulseaudio --start
 exec --no-startup-id /usr/bin/pa-applet &
 exec --no-startup-id pcmanfm -d &
 exec --no-startup-id /usr/bin/shutter --min_at_startup &
-
+exec --no-startup-id /usr/bin/ssh-agent
+ 
 exec --no-startup-id i3-msg 'workspace 2:Mail; exec gtk-launch chrome-https___mail.google.com_mail_u_0.desktop; workspace 1:Web'
 exec --no-startup-id i3-msg 'workspace 2:Mail; exec gtk-launch chrome-https___mail.google.com_mail_u_1.desktop; workspace 1:Web'
 exec --no-startup-id i3-msg 'workspace 10; exec gtk-launch chrome-http___piranhaa.net_subsonic_index.view.desktop; workspace 1:Web'
