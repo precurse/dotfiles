@@ -1,5 +1,4 @@
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
-
+## ~/.i3/config
 set $mod Mod4
 focus_follows_mouse yes
 popup_during_fullscreen smart 
@@ -160,6 +159,28 @@ bindsym $mod+x [class="Firefox"] focus
 bar {
         status_command i3status
 }
+
+
+set $Locker dm-tool lock && sleep 1 #i3lock && sleep 1
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Pause mode "$mode_system"
+
+
+exec --no-startup-id xset dpms 600
 
 
 exec --no-startup-id /usr/bin/nm-applet &
