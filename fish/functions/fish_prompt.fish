@@ -73,54 +73,14 @@ function fish_prompt
     printf $c1
     printf (pwd | sed "s,/,$c0/$c1,g" | sed "s,\(.*\)/[^m]*m,\1/$c3,")
    
-
     set_color normal
     set_color $retc
     printf '%s ' (__fish_git_prompt)
     #echo -n (date +%X)
     set_color -o green
-    
+
+
     # Prompt on a new line
     printf $c4
     printf "\n> "
 end
-
-
-##    echo -n '['
-#    set_color normal
-#    set_color $retc
-#    printf '%s ' (__fish_git_prompt)
-#    #echo -n (date +%X)
-#    set_color -o green
-##    echo -n ]
-#    
-#    # Check if acpi exists
-#    if not set -q __fish_nim_prompt_has_acpi
-#    	if type acpi > /dev/null
-#    		set -g __fish_nim_prompt_has_acpi ''
-#    	else
-#    		set -g __fish_nim_prompt_has_acpi '' # empty string
-#    	end
-#    end
-#    	
-#    if test "$__fish_nim_prompt_has_acpi"
-#		if [ (acpi -a 2> /dev/null | grep off) ]
-#			echo -n '─['
-#			set_color -o red
-#			echo -n (acpi -b|cut -d' ' -f 4-)
-#			set_color -o green
-#			echo -n ']'
-#		end
-#	end
-#    echo
-#    set_color normal
-#    set_color $retc
-#    if [ $tty = tty ]
-#        echo -n "'->"
-#    else
-#        echo -n '╰─>'
-#    end
-#    set_color -o red
-#    echo -n '$ '
-#    set_color normal
-#end
