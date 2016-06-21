@@ -3,12 +3,12 @@ filetype off                  " required
 
 
 call plug#begin('~/.config/nvim/plugged')
-    Plug 'chase/vim-ansible-yaml'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'tpope/vim-fugitive'
     Plug 'scrooloose/syntastic'
     Plug 'fatih/vim-go'
+    Plug 'pearofducks/ansible-vim'
 call plug#end()
 
 filetype plugin indent on
