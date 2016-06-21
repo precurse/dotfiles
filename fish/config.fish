@@ -1,4 +1,5 @@
 set --erase fish_greeting
+setenv EDITOR vim
 
 # Aliases
 balias gws "git status --short"
@@ -10,9 +11,11 @@ balias gb "git branch"
 balias gm "git merge"
 balias gps "git push"
 balias gpl "git pull"
-alias rm="rm -i"
+balias rm "rm -i"
+
 alias vi="nvim"
 alias vim="nvim"
+alias vimdiff="vim -d"
 
 egrep "^export " ~/.profile | while read e
        set var (echo $e | sed -E "s/^export ([A-Z_]+)=(.*)\$/\1/")
