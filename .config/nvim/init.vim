@@ -1,8 +1,6 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-
 call plug#begin('~/.config/nvim/plugged')
+    Plug 'junegunn/seoul256.vim'
+    Plug 'tpope/vim-commentary'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'tpope/vim-fugitive'
@@ -14,9 +12,8 @@ call plug#end()
 filetype plugin indent on
 syntax enable
 
-set t_Co=256
-colorscheme Tomorrow-Night
-
+colo seoul256
+set background=dark
 
 " general settings
 set mouse=a
