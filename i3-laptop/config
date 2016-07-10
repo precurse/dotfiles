@@ -187,6 +187,11 @@ mode "$mode_system" {
 
 bindsym $mod+Pause mode "$mode_system"
 
+# X11 bell events
+exec --no-startup-id pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell
+exec --no-startup-id pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
+exec --no-startup-id xset b 30
+
 # 10 Minute Display timeout
 exec --no-startup-id xset dpms 600
 
