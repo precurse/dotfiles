@@ -39,6 +39,10 @@ set incsearch
 set hlsearch
 set gdefault
 
+" whitespace
+highlight TrailSpace guibg=red ctermbg=darkred
+match TrailSpace / \+$/
+
 " easier goto beginning/end of line
 nnoremap <leader>a ^
 nnoremap <leader>e $
