@@ -1,0 +1,9 @@
+[user]
+	name = Andrew Klaus
+	email = andrewklaus@gmail.com
+
+[push]
+	default = simple
+
+[merge]
+    tool = vimdiff
