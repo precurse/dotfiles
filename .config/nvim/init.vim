@@ -47,6 +47,16 @@ match TrailSpace / \+$/
 nnoremap <leader>a ^
 nnoremap <leader>e $
 
+" clear highlighting and redraw
+nnoremap <silent> <leader>l :nohl<CR><C-l>
+
+" split navigation
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+
 " wildmenu
 set wildmenu
 set wildignore+=.hg,.git,.svn
