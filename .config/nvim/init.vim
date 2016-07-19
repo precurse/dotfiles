@@ -1,3 +1,5 @@
+filetype off
+
 call plug#begin('~/.config/nvim/plugged')
     Plug 'junegunn/seoul256.vim'
     Plug 'tpope/vim-commentary'
