@@ -18,7 +18,7 @@ colo seoul256
 set background=dark
 
 " general settings
-set mouse=a
+set mouse=
 set backspace=indent,eol,start
 set nobackup                        " Use vcs
 set noswapfile                      " Use vcs
