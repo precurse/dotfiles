@@ -12,6 +12,8 @@ balias gm "git merge"
 balias gps "git push"
 balias gpl "git pull"
 balias rm "rm -i"
+balias pbcopy "xclip -selection clipboard -i"
+balias pbpaste "xclip -selection clipboard -o"
 
 alias vi="nvim"
 alias vim="nvim"
