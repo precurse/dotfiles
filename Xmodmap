@@ -1,5 +1,6 @@
-keycode 66 = F10
+keycode 66 = Control_L
 clear Lock
+add Control = Control_L
 ! Menu Button
 keycode 135 = Super_L NoSymbol Super_L
 ! PrtSc T440p button
