@@ -1,6 +1,6 @@
 XTerm*faceName: Monospace:size=7
 URxvt.perl-ext-common: default,matcher
-URxvt.url-launcher: /usr/bin/chromium 
+URxvt.url-launcher: /usr/bin/chromium
 URxvt.matcher.button: 1
 URxvt.letterSpace: -1
 URxvt.font: 9x15
