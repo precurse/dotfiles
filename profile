@@ -1,6 +1,8 @@
 
+# You should also set $VISUAL, as some programs (correctly) use that instead of $EDITOR (see VISUAL vs. EDITOR)
 export VISUAL=nvim
 export EDITOR="$VISUAL"
+export PATH=$HOME/bin:$PATH
 
 ## ALIASES
 
