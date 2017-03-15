@@ -11,7 +11,6 @@ ln -s "$DIR/bashrc" ~/.bashrc
 ln -s "$DIR/bash_profile" ~/.bash_profile
 ln -s "$DIR/zshrc" ~/.zshrc
 ln -s "$DIR/.config/fish" ~/.config/fish
-ln -s "$DIR/logout" ~/.logout
 
 # X11
 ln -s "$DIR/Xresources" ~/.Xresources
