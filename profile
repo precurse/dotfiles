@@ -9,7 +9,13 @@ export PATH=$HOME/bin:$PATH
 alias ls='ls --color=auto'
 alias vi="nvim"
 alias vimdiff="nvim -d"
+alias rm="rm -i"
+alias pbcopy="xclip -selection clipboard -i"
+alias pbpaste="xclip -selection clipboard -o"
+
+# Git
 alias gws="git status --short"
+alias gs="git status"
 alias gc="git commit"
 alias gca="git commit -a"
 alias gco="git checkout"
@@ -18,10 +24,14 @@ alias gb="git branch"
 alias gm="git merge"
 alias gps="git push"
 alias gpl="git pull"
-alias rm="rm -i"
-alias pbcopy="xclip -selection clipboard -i"
-alias pbpaste="xclip -selection clipboard -o"
 
+
+# Docker
+alias dm='docker-machine'
+alias dockerrm='docker rm $(docker ps -a | grep -v Up | grep -v data | grep -v CONTAINER | cut -d" " -f1) 2>/dev/null'
+alias dockerrmi='docker rmi $(docker images -q -f dangling=true) 2>/dev/null'
+alias dockerrmv='docker volume rm $(docker volume ls -q -f dangling=true) 2>/dev/null'
+alias dockerclean='dockerrm; dockerrmi'
 
 
 ## SSH AGENT
