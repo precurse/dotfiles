@@ -20,3 +20,6 @@ ln -s "$DIR/Xmodmap" ~/.Xmodmap
 ln -s "$DIR/i3-laptop/config" ~/.config/i3/config
 ln -s "$DIR/i3-laptop/i3status.conf" ~/.i3status.conf
 
+# SSH
+ln -s "$DIR/ssh/authorized_keys" ~/.ssh/authorized_keys
+
