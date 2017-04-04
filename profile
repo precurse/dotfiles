@@ -33,8 +33,14 @@ alias dockerrmi='docker rmi $(docker images -q -f dangling=true) 2>/dev/null'
 alias dockerrmv='docker volume rm $(docker volume ls -q -f dangling=true) 2>/dev/null'
 alias dockerclean='dockerrm; dockerrmi'
 
+## PATH
+
+# set PATH so it includes private bin directories
+PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+
 
 ## SSH AGENT
+
 SSH_ENV="$HOME/.ssh/environment"
 
 function start_agent {

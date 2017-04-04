@@ -1,3 +1,4 @@
 fishd.*
 .config/nvim/plugged
 .config/nvim/.netrwhist
+.DS_Store
