@@ -1,9 +1,32 @@
 [user]
-	name = Andrew Klaus
-	email = andrewklaus@gmail.com
+    name = Andrew Klaus
+    email = andrewklaus@gmail.com
+
+[alias]
+    prune = fetch --prune
+
+    stash-all = stash save --include-untracked
+    # We wanna grab those pesky un-added files!
+    # https://git-scm.com/docs/git-stash
+
+    glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 
 [push]
-	default = simple
+    default = simple
+    followTags = true
 
 [merge]
+    ff = only
     tool = vimdiff
+
+[status]
+    showUntrackedFiles = all
+
+[transfer]
+    fsckobjects = true
+[stash]
+    showPatch = true
+[rebase]
+    autostash = true
+[log]
+    decorate = full
