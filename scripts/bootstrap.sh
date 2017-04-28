@@ -1,5 +1,6 @@
 #!/bin/sh
-DIR=$PWD
+cd "$(dirname "$0")/.."
+DIR=$(pwd -P)
 
 ln -s "$DIR/gitconfig" ~/.gitconfig
 ln -s "$DIR/tmux.conf" ~/.tmux.conf

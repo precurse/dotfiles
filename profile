@@ -9,10 +9,16 @@ export VISUAL EDITOR PATH
 
 ## ALIASES
 
-alias ls='ls --color=auto'
+alias ..="cd .."
+alias ll="ls -lAh | less"
+alias cp="cp -i"    # prompt before overwrite
+alias mv="mv -i -u" # prompt before overwrite / move only if source file newer
+alias rm="rm -i"    # prompt before overwrite
+alias df="df -h"    # human readable
+alias mkdir="mkdir -p" # always make it
+
 alias vi="nvim"
 alias vimdiff="nvim -d"
-alias rm="rm -i"
 alias pbcopy="xclip -selection clipboard -i"
 alias pbpaste="xclip -selection clipboard -o"
 
@@ -65,3 +71,11 @@ done
 cd $ups
 }
 
+cd ()
+{
+	builtin cd $1
+	ls -ltr
+}
+
+# remove line n from a file (removeline N FILE)
+removeline () { sed -i $1d $2; }
