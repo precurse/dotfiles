@@ -1,8 +1,10 @@
 
 # You should also set $VISUAL, as some programs (correctly) use that instead of $EDITOR (see VISUAL vs. EDITOR)
-export VISUAL=nvim
-export EDITOR="$VISUAL"
-export PATH=$HOME/bin:$PATH
+VISUAL="nvim"
+EDITOR="$VISUAL"
+PATH="$HOME/bin:$HOME/.local/bin:$HOME/node_modules/.bin:$PATH"
+
+export VISUAL EDITOR PATH
 
 ## ALIASES
 
@@ -25,39 +27,24 @@ alias gm="git merge"
 alias gps="git push"
 alias gpl="git pull"
 
-
-# Docker
-alias dm='docker-machine'
-alias dockerrm='docker rm $(docker ps -a | grep -v Up | grep -v data | grep -v CONTAINER | cut -d" " -f1) 2>/dev/null'
-alias dockerrmi='docker rmi $(docker images -q -f dangling=true) 2>/dev/null'
-alias dockerrmv='docker volume rm $(docker volume ls -q -f dangling=true) 2>/dev/null'
-alias dockerclean='dockerrm; dockerrmi'
-
-## PATH
-
-# set PATH so it includes private bin directories
-PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-
-
 ## SSH AGENT
 
 SSH_ENV="$HOME/.ssh/environment"
 
 function start_agent {
      echo "Initialising new SSH agent..."
-     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     env ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
      echo succeeded
      chmod 600 "${SSH_ENV}"
      . "${SSH_ENV}" > /dev/null
-     /usr/bin/ssh-add;
+     env ssh-add;
 }
 
 # Source SSH settings, if applicable
 
 if [ -f "${SSH_ENV}" ]; then
      . "${SSH_ENV}" > /dev/null
-     #ps ${SSH_AGENT_PID} doesn't work under cywgin
-     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+     env ps --pid ${SSH_AGENT_PID} > /dev/null || {
          start_agent;
      }
 else
