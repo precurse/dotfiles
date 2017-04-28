@@ -66,15 +66,16 @@ function up {
 ups=""
 for i in $(seq 1 $1)
 do
-        ups=$ups"../"
+  ups=$ups"../"
 done
 cd $ups
 }
 
+# list dir contents after cd
 cd ()
 {
-	builtin cd $1
-	ls -ltr
+  builtin cd $1
+  ls -ltr
 }
 
 # remove line n from a file (removeline N FILE)
