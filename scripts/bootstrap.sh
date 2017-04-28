@@ -5,6 +5,8 @@ DIR=$(pwd -P)
 ln -s "$DIR/gitconfig" ~/.gitconfig
 ln -s "$DIR/tmux.conf" ~/.tmux.conf
 ln -s "$DIR/.config/nvim" ~/.config/nvim
+ln -s "$DIR/.config/nvim" ~/.vim
+ln -s "$DIR/.config/nvim/init.vim" ~/.vimrc
 
 # Shells
 ln -s "$DIR/profile" ~/.profile
