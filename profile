@@ -1,3 +1,4 @@
+## Environment Variables
 
 # You should also set $VISUAL, as some programs (correctly) use that instead of $EDITOR (see VISUAL vs. EDITOR)
 VISUAL="nvim"
