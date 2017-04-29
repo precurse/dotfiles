@@ -1,14 +1,14 @@
 filetype off
 
 call plug#begin('~/.config/nvim/plugged')
-    Plug 'junegunn/seoul256.vim'
-    Plug 'tpope/vim-commentary'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'tpope/vim-fugitive'
-    Plug 'scrooloose/syntastic'
-    Plug 'fatih/vim-go'
-    Plug 'pearofducks/ansible-vim'
+    Plug 'junegunn/seoul256.vim'            " colour/theme
+    Plug 'tpope/vim-commentary'             " comment stuff out
+    Plug 'vim-airline/vim-airline'          " status/tabline
+    Plug 'vim-airline/vim-airline-themes'   " themes
+    Plug 'tpope/vim-fugitive'               " git wrapper
+    Plug 'scrooloose/syntastic'             " syntax checking
+    Plug 'fatih/vim-go'                     " go development
+    Plug 'pearofducks/ansible-vim'          " ansible support
 call plug#end()
 
 filetype plugin indent on
