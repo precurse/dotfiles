@@ -51,7 +51,7 @@ function start_agent {
 
 if [ -f "${SSH_ENV}" ]; then
      . "${SSH_ENV}" > /dev/null
-     env ps -p ${SSH_AGENT_PID} > /dev/null || {
+     ps -p ${SSH_AGENT_PID} > /dev/null || {
          start_agent;
      }
 else
