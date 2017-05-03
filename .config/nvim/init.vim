@@ -9,6 +9,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'scrooloose/syntastic'             " syntax checking
     Plug 'fatih/vim-go'                     " go development
     Plug 'pearofducks/ansible-vim'          " ansible support
+    Plug 'Valloric/YouCompleteMe'           " auto-complete
 call plug#end()
 
 filetype plugin indent on
