@@ -88,3 +88,10 @@ cd ()
 
 # remove line n from a file (removeline N FILE)
 removeline () { sed -i $1d $2; }
+
+function os_clean {
+unset OS_AUTH_URL
+unset OS_TENANT_NAME
+unset OS_USERNAME
+unset OS_PASSWORD
+}
