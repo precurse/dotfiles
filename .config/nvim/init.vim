@@ -10,6 +10,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'fatih/vim-go'                     " go development
     Plug 'pearofducks/ansible-vim'          " ansible support
     Plug 'Valloric/YouCompleteMe'           " auto-complete
+    Plug 'ctrlpvim/ctrlp.vim'               " fuzzy finder
 call plug#end()
 
 filetype plugin indent on
@@ -64,6 +65,14 @@ nnoremap <c-l> <c-w>l
 set wildmenu
 set wildignore+=.hg,.git,.svn
 set wildignore+=*.pyc
+
+" ctrlp
+nnoremap <leader>f :CtrlP<CR>
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>t :CtrlPBufTag<CR>
+nnoremap <leader>T :CtrlPTag<CR>
+let g:ctrlp_show_hidden=1
+let g:ctrlp_extensions=['tag', 'buffertag']
 
 " airline
 let g:airline_left_sep=''
