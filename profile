@@ -1,5 +1,21 @@
-## Environment Variables
+## OS-Specific Variables
+if [ -f /etc/os-release ]
+then
+  . /etc/os-release
+else
+  echo "WARNING: /etc/os-release not found on this OS"
+  if [ "$(uname)" == "Darwin" ]; then
+    ID_LIKE="osx"
+  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    ID_LIKE="linux-other"
+  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    ID_LIKE="cygwin32"
+  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+    ID_LIKE="cygwin64"
+  fi
+fi
 
+# Environment Variables
 # You should also set $VISUAL, as some programs (correctly) use that instead of $EDITOR (see VISUAL vs. EDITOR)
 VISUAL="vim"
 EDITOR="$VISUAL"
@@ -7,8 +23,8 @@ PATH="$HOME/bin:$HOME/.local/bin:$HOME/node_modules/.bin:$PATH"
 
 export VISUAL EDITOR PATH
 
-## ALIASES
-
+# ALIASES
+#
 alias ..="cd .."
 alias ll="ls -lAh | less"
 alias cp="cp -i"    # prompt before overwrite
@@ -43,8 +59,9 @@ alias gm="git merge"
 alias gps="git push"
 alias gpl="git pull"
 
-# Arch specific
-if [ -f "/etc/arch-release" ]; then
+# OS-specific
+#
+if [ "${ID_LIKE:0:4}" == "arch" ]; then
   alias pacfetch="sudo pacman --sysupgrade --sync --refresh --downloadonly"
   alias pacupdate="sudo pacman --sysupgrade --sync --refresh"
 
@@ -52,7 +69,7 @@ if [ -f "/etc/arch-release" ]; then
 fi
 
 ## SSH AGENT
-
+##
 SSH_ENV="$HOME/.ssh/environment"
 
 function start_agent {
