@@ -9,7 +9,7 @@ confdir:
 	mkdir -p ${HOME}/.config
 
 .PHONY: tmux
-tmux: ${HOME}/.tmux.conf
+tmux:
 	ln -fvs ${PWD}/tmux.conf ${HOME}/.tmux.conf \
 	&& tmux source-file ~/.tmux.conf || true
 
