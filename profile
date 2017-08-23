@@ -116,7 +116,7 @@ cd $ups
 # list dir contents after cd
 cd ()
 {
-  builtin cd $1
+  builtin cd "$1"
   ls -ltr
 }
 
