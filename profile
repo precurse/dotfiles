@@ -61,7 +61,7 @@ alias gpl="git pull"
 
 # OS-specific
 #
-if [ "${ID_LIKE:0:4}" == "arch" ]; then
+if case ${ID_LIKE} in arch*) ;; *) false;; esac; then
   alias pacfetch="sudo pacman --sysupgrade --sync --refresh --downloadonly"
   alias pacupdate="sudo pacman --sysupgrade --sync --refresh"
 
