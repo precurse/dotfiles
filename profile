@@ -16,6 +16,7 @@ alias mv="mv -i -u" # prompt before overwrite / move only if source file newer
 alias rm="rm -i"    # prompt before overwrite
 alias df="df -h"    # human readable
 alias mkdir="mkdir -p" # always make it
+alias genpass="< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32};echo;"
 
 # Use neovim then vim (if neovim not available)
 if which nvim > /dev/null; then
@@ -45,7 +46,7 @@ alias gpl="git pull"
 # Arch specific
 function pacdep {
 
-comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort)
+comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort);
 
 }
 
