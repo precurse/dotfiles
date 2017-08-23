@@ -42,6 +42,13 @@ alias gm="git merge"
 alias gps="git push"
 alias gpl="git pull"
 
+# Arch specific
+function pacdep {
+
+comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort)
+
+}
+
 ## SSH AGENT
 
 SSH_ENV="$HOME/.ssh/environment"
