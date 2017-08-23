@@ -1,18 +1,26 @@
-## OS-Specific Variables
+## Get OS Variables
 if [ -f /etc/os-release ]
 then
   . /etc/os-release
 else
-  echo "WARNING: /etc/os-release not found on this OS"
-  if [ "$(uname)" == "Darwin" ]; then
-    ID_LIKE="osx"
-  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    ID_LIKE="linux-other"
-  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-    ID_LIKE="cygwin32"
-  elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
-    ID_LIKE="cygwin64"
-  fi
+  echo "WARNING: /etc/os-release not found on this OS. Using 'uname -s'."
+  case "$(uname -s)" in
+    Darwin)
+      ID_LIKE="osx"
+      ;;
+
+    Linux)
+      ID_LIKE="linux-unknown"
+      ;;
+
+    CYGWIN*|MINGW32*|MSYS*)
+      ID_LIKE="Windows"
+      ;;
+
+    *)
+      ID_LIKE="Unknown"
+      ;;
+  esac
 fi
 
 # Environment Variables
