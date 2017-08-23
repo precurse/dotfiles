@@ -44,11 +44,10 @@ alias gps="git push"
 alias gpl="git pull"
 
 # Arch specific
-function pacdep {
+alias pacfetch="sudo pacman --upgrades --sync --refresh --downloadonly"
+alias pacupdate="sudo pacman --upgrades --sync --refresh"
 
-comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort);
-
-}
+function pacdep { comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort); }
 
 ## SSH AGENT
 
