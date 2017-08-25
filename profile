@@ -105,12 +105,12 @@ fi
 ## FUNCTIONS
 
 function up {
-ups=""
-for i in $(seq 1 $1)
-do
-  ups=$ups"../"
-done
-cd $ups
+  ups=""
+  for i in $(seq 1 $1)
+  do
+    ups=$ups"../"
+  done
+  cd $ups
 }
 
 # list dir contents after cd
