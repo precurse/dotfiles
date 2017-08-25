@@ -105,7 +105,7 @@ fi
 ## FUNCTIONS
 
 function up {
-  ups=""
+  local ups=""
   for i in $(seq 1 $1)
   do
     ups=$ups"../"
