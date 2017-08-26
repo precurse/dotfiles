@@ -67,8 +67,29 @@ alias gm="git merge"
 alias gps="git push"
 alias gpl="git pull"
 
-# OS-specific
-#
+## FUNCTIONS
+
+function up {
+  local ups=""
+  for i in $(seq 1 $1)
+  do
+    ups=$ups"../"
+  done
+  cd $ups
+}
+
+# list dir contents after cd
+function cd () { builtin cd "$@" && ls -l; }
+
+# remove line n from a file (removeline N FILE)
+function removeline () { sed -i $1d $2; }
+
+# Clean all OpenStack env variables
+function os_clean { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_NAME OS_PROJECT_NAME; }
+
+
+## OS-specific Stuff
+##
 if case ${ID_LIKE} in arch*) ;; *) false;; esac; then
   alias pacfetch="sudo pacman --sysupgrade --sync --refresh --downloadonly"
   alias pacupdate="sudo pacman --sysupgrade --sync --refresh"
@@ -102,30 +123,3 @@ fi
 ## / SSH AGENT ##
 
 
-## FUNCTIONS
-
-function up {
-  local ups=""
-  for i in $(seq 1 $1)
-  do
-    ups=$ups"../"
-  done
-  cd $ups
-}
-
-# list dir contents after cd
-cd ()
-{
-  builtin cd "$1"
-  ls -ltr
-}
-
-# remove line n from a file (removeline N FILE)
-removeline () { sed -i $1d $2; }
-
-function os_clean {
-unset OS_AUTH_URL
-unset OS_TENANT_NAME
-unset OS_USERNAME
-unset OS_PASSWORD
-}
