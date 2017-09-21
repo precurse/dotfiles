@@ -3,14 +3,53 @@
 
 [[ -f ~/.profile ]] && . ~/.profile
 
-function color_my_prompt {
-    local __user_and_host="\[\033[01;32m\]\u@\h:"
-    local __cur_location="\[\033[01;34m\]\w"
-    local __cur_time="\A"
-    local __git_branch_color="\[\033[31m\]"
-    local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`\n'
-    local __prompt_tail="\[\033[35m\]\\$ \[$(tput sgr0)\]"
-    local __last_color="\[\033[00m\]"
-    export PS1="$__user_and_host$__cur_location $__git_branch_color$__git_branch$__cur_time $__prompt_tail$__last_color"
+function openstack_user {
+  if [ -n "$OS_USERNAME" ]; then
+    echo -n "OS:$OS_USERNAME"
+  fi
 }
-color_my_prompt
+
+function git_branch {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* (*\([^)]*\))*/\1/'
+}
+
+function markup_git_branch {
+  if [[ -n $@ ]]; then
+    if [[ -z $(git status --porcelain 2> /dev/null | tail -n1) ]]; then
+      echo -e " \001\033[32m\002($@)\001\033[0m\002"
+    else
+      echo -e " \001\033[31m\002($@)\001\033[0m\002"
+    fi
+  fi
+}
+
+function bash_prompt {
+  # regular colors
+  local K="\[\033[0;30m\]"    # black
+  local R="\[\033[0;31m\]"    # red
+  local G="\[\033[0;32m\]"    # green
+  local Y="\[\033[0;33m\]"    # yellow
+  local B="\[\033[0;34m\]"    # blue
+  local M="\[\033[0;35m\]"    # magenta
+  local C="\[\033[0;36m\]"    # cyan
+  local W="\[\033[0;37m\]"    # white
+
+  # emphasized (bolded) colors
+  local BK="\[\033[1;30m\]"
+  local BR="\[\033[1;31m\]"
+  local BG="\[\033[1;32m\]"
+  local BY="\[\033[1;33m\]"
+  local BB="\[\033[1;34m\]"
+  local BM="\[\033[1;35m\]"
+  local BC="\[\033[1;36m\]"
+  local BW="\[\033[1;37m\]"
+
+  local __user_and_host="\u@\h:"
+  local __cur_location="\w"
+  local __cur_time="\t"
+  local __prompt_tail="\$ \[$(tput sgr0)\]"
+
+  export PS1="$BR$__cur_time:$BG$__user_and_host$BB$__cur_location$BR\$(markup_git_branch \$(git_branch)) $Y$(openstack_user)\n$BM$__prompt_tail"
+}
+
+PROMPT_COMMAND=bash_prompt
