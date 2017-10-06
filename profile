@@ -27,7 +27,14 @@ fi
 # You should also set $VISUAL, as some programs (correctly) use that instead of $EDITOR (see VISUAL vs. EDITOR)
 VISUAL="vim"
 EDITOR="$VISUAL"
-PATH="$HOME/bin:$HOME/.local/bin:$HOME/node_modules/.bin:/opt/local/sbin:/opt/local/bin:$PATH"
+
+PATH="$PATH:$HOME/node_modules/.bin"
+PATH="$PATH:$HOME/bin"
+PATH="$PATH:$HOME/.local/bin"
+PATH="$PATH:/usr/local/sbin"
+PATH="$PATH:/usr/local/bin"
+PATH="$PATH:/opt/local/sbin"
+PATH="$PATH:/opt/local/bin"
 
 export VISUAL EDITOR PATH
 
