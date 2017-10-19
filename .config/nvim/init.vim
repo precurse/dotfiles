@@ -6,7 +6,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-airline/vim-airline'          " status/tabline
     Plug 'vim-airline/vim-airline-themes'   " themes
     Plug 'tpope/vim-fugitive'               " git wrapper
-    Plug 'scrooloose/syntastic'             " syntax checking
+    Plug 'w0rp/ale'                         " syntax checking
     Plug 'fatih/vim-go'                     " go development
     Plug 'pearofducks/ansible-vim'          " ansible support
     Plug 'Valloric/YouCompleteMe'           " auto-complete
