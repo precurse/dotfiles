@@ -6,9 +6,10 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-airline/vim-airline'          " status/tabline
     Plug 'vim-airline/vim-airline-themes'   " themes
     Plug 'tpope/vim-fugitive'               " git wrapper
-    Plug 'w0rp/ale'                         " syntax checking
+    Plug 'w0rp/ale'                         " async lint
     Plug 'fatih/vim-go'                     " go development
-    Plug 'pearofducks/ansible-vim'          " ansible support
+    Plug 'sheerun/vim-polyglot'             " Language Pack
+    Plug 'airblade/vim-gitgutter'           " Git diff
     Plug 'Valloric/YouCompleteMe'           " auto-complete
     Plug 'ctrlpvim/ctrlp.vim'               " fuzzy finder
 call plug#end()
@@ -44,7 +45,7 @@ set hlsearch
 set gdefault
 
 " whitespace
-highlight TrailSpace guibg=red ctermbg=darkred
+highlight TrailSpace ctermbg=darkred
 match TrailSpace / \+$/
 
 " easier goto beginning/end of line
@@ -60,7 +61,6 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
-
 " wildmenu
 set wildmenu
 set wildignore+=.hg,.git,.svn
@@ -73,13 +73,12 @@ nnoremap <leader>t :CtrlPBufTag<CR>
 nnoremap <leader>T :CtrlPTag<CR>
 let g:ctrlp_show_hidden=1
 let g:ctrlp_extensions=['tag', 'buffertag']
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " airline
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 set laststatus=2
-
-let python_highlight_all=1
 
 " syntastic
 let g:syntastic_check_on_open=1
