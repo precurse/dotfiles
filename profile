@@ -38,6 +38,13 @@ PATH="$PATH:/opt/local/bin"
 
 export VISUAL EDITOR PATH
 
+# Use ack for FZF fuzzy finder
+if [ -x "$(command -v awk)" ]; then
+  export FZF_DEFAULT_COMMAND='ack -f'
+else
+  export FZF_DEFAULT_COMMAND="find . -type f -print -o -type l -print 2> /dev/null | sed s/^..//"
+fi
+
 # ALIASES
 #
 alias ..="cd .."
@@ -50,32 +57,40 @@ alias mkdir="mkdir -p" # always make it
 alias genpass="< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32};echo;"
 
 # Use neovim then vim (if neovim not available)
-if which nvim > /dev/null 2>&1; then
+if [ -x "$(command -v nvim)" ]; then
   alias vi="nvim"
   alias vim="nvim"
   alias vimdiff="nvim -d"
-elif which vim > /dev/null 2>&1; then
+elif [ -x "$(command -v vim)" ]; then
   alias vi="vim"
 fi
 
-alias pbcopy="xclip -selection clipboard -i"
-alias pbpaste="xclip -selection clipboard -o"
+# Xclip pasting
+if [ -x "$(command -v xclip)" ]; then
+  alias pbcopy="xclip -selection clipboard -i"
+  alias pbpaste="xclip -selection clipboard -o"
+fi
 
-# Git
+# Git aliases
 #
-alias gws="git status --short"
-alias gs="git status"
-alias gc="git commit"
-alias gca="git commit -a"
-alias gco="git checkout"
-alias ga="git add"
-alias gb="git branch"
-alias gm="git merge"
-alias gps="git push"
-alias gpl="git pull"
+if [ -x "$(command -v git)" ]; then
+  alias gws="git status --short"
+  alias gs="git status"
+  alias gc="git commit"
+  alias gca="git commit -a"
+  alias gco="git checkout"
+  alias ga="git add"
+  alias gb="git branch"
+  alias gm="git merge"
+  alias gps="git push"
+  alias gpl="git pull"
+else
+  echo "git executable not found."
+fi
 
 ## FUNCTIONS
 
+# Up, up, and away
 function up {
   local ups=""
   for i in $(seq 1 $1)
