@@ -16,7 +16,7 @@ tmux:
 .PHONY: shell
 shell:
 	ln -fvs "${PWD}/bashrc" "${HOME}/.bashrc" \
-	&& ln -fvs "${PWD}/bash_login" "${HOME}/.bash_login" \
+	&& ln -fvs "${PWD}/bash_profile" "${HOME}/.bash_profile" \
 	&& ln -fvs "${PWD}/profile" "${HOME}/.profile" \
 	&& ln -fvs "${PWD}/zshrc" "${HOME}/.zshrc"
 
@@ -39,7 +39,7 @@ git:
 backup:
 	mkdir -p "${HOME}/.dotbackup" \
     && cp -a "${HOME}/.tmux.conf" "${HOME}/.dotbackup/" ||true \
-    && cp -a "${HOME}/.bash_login" "${HOME}/.dotbackup/" ||true \
+    && cp -a "${HOME}/.bash_profile" "${HOME}/.dotbackup/" ||true \
     && cp -a "${HOME}/.bashrc" "${HOME}/.dotbackup/" ||true \
     && cp -a "${HOME}/.profile" "${HOME}/.dotbackup/" ||true \
     && cp -a "${HOME}/.ssh/authorized_keys" "${HOME}/.dotbackup/" ||true \
