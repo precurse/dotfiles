@@ -12,8 +12,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'airblade/vim-gitgutter'           " Git diff
     Plug 'Valloric/YouCompleteMe'           " auto-complete
     Plug 'jiangmiao/auto-pairs'
-    Plug 'junegunn/fzf.vim'                 " fuzzy finder
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'ctrlpvim/ctrlp.vim'               " fuzzy finder
 call plug#end()
 
 filetype plugin indent on
@@ -69,10 +68,13 @@ set wildignore+=.hg,.git,.svn
 set wildignore+=*.pyc
 
 " ctrlp
-nnoremap <leader>f :Files<CR>
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>t :BTags<CR>
-nnoremap <leader>T :Tags<CR>
+nnoremap <leader>f :CtrlP<CR>
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>t :CtrlPBufTag<CR>
+nnoremap <leader>T :CtrlPTag<CR>
+let g:ctrlp_show_hidden=1
+let g:ctrlp_extensions=['tag', 'buffertag']
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " airline
 let g:airline_left_sep=''
