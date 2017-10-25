@@ -80,3 +80,7 @@ let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclu
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 set laststatus=2
+
+" auto-pairs
+let g:AutoPairsCenterLine=0
+let g:AutoPairsMultilineClose=0
