@@ -2,6 +2,7 @@
 [[ $- != *i* ]] && return
 
 [[ -f ~/.profile ]] && . ~/.profile
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 function openstack_user {
   if [ -n "$OS_USERNAME" ]; then

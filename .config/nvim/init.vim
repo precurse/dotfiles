@@ -11,7 +11,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'sheerun/vim-polyglot'             " Language Pack
     Plug 'airblade/vim-gitgutter'           " Git diff
     Plug 'Valloric/YouCompleteMe'           " auto-complete
-    Plug 'ctrlpvim/ctrlp.vim'               " fuzzy finder
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 call plug#end()
 
 filetype plugin indent on
