@@ -3,14 +3,16 @@ filetype off
 call plug#begin('~/.config/nvim/plugged')
     Plug 'junegunn/seoul256.vim'            " colour/theme
     Plug 'tpope/vim-commentary'             " comment stuff out
+    Plug 'tpope/vim-fugitive'               " git wrapper
     Plug 'vim-airline/vim-airline'          " status/tabline
     Plug 'vim-airline/vim-airline-themes'   " themes
-    Plug 'tpope/vim-fugitive'               " git wrapper
     Plug 'w0rp/ale'                         " async lint
     Plug 'fatih/vim-go'                     " go development
     Plug 'sheerun/vim-polyglot'             " Language Pack
     Plug 'airblade/vim-gitgutter'           " Git diff
     Plug 'Valloric/YouCompleteMe'           " auto-complete
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'junegunn/fzf.vim'                 " fuzzy finder
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 call plug#end()
 
@@ -21,7 +23,7 @@ colo seoul256
 set background=dark
 
 " general settings
-set mouse=
+set mouse=                          " Disable mouse
 set backspace=indent,eol,start
 set nobackup                        " Use vcs
 set noswapfile                      " Use vcs
@@ -44,7 +46,7 @@ set incsearch
 set hlsearch
 set gdefault
 
-" whitespace
+" highlight whitespace
 highlight TrailSpace ctermbg=darkred
 match TrailSpace / \+$/
 
@@ -67,21 +69,12 @@ set wildignore+=.hg,.git,.svn
 set wildignore+=*.pyc
 
 " ctrlp
-nnoremap <leader>f :CtrlP<CR>
-nnoremap <leader>b :CtrlPBuffer<CR>
-nnoremap <leader>t :CtrlPBufTag<CR>
-nnoremap <leader>T :CtrlPTag<CR>
-let g:ctrlp_show_hidden=1
-let g:ctrlp_extensions=['tag', 'buffertag']
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>t :BTags<CR>
+nnoremap <leader>T :Tags<CR>
 
 " airline
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 set laststatus=2
-
-" syntastic
-let g:syntastic_check_on_open=1
-let g:syntastic_quiet_messages={ "type": "style" }
-let g:syntastic_python_checkers=["pylint"]
-let g:syntastic_python_pylint_args="--disable=C,R0902,R0903,R0904,R0913,R0921,W0232,E1004,E1002"
