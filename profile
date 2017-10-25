@@ -39,7 +39,7 @@ PATH="$PATH:/opt/local/bin"
 export VISUAL EDITOR PATH
 
 # Use ack for FZF fuzzy finder
-if [ -x "$(command -v awk)" ]; then
+if [ -x "$(command -v ack)" ]; then
   export FZF_DEFAULT_COMMAND='ack -f'
 else
   export FZF_DEFAULT_COMMAND="find . -type f -print -o -type l -print 2> /dev/null | sed s/^..//"
