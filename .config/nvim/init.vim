@@ -1,9 +1,9 @@
 filetype off
 
 call plug#begin('~/.config/nvim/plugged')
-    Plug 'junegunn/seoul256.vim'            " colour/theme
     Plug 'tpope/vim-commentary'             " comment stuff out
     Plug 'tpope/vim-fugitive'               " git wrapper
+    Plug 'tpope/vim-endwise'                " end structures
     Plug 'vim-airline/vim-airline'          " status/tabline
     Plug 'vim-airline/vim-airline-themes'   " themes
     Plug 'w0rp/ale'                         " async lint
@@ -18,8 +18,9 @@ call plug#end()
 filetype plugin indent on
 syntax enable
 
-colo seoul256
-set background=dark
+" colorscheme
+set t_Co=256
+colorscheme Tomorrow-Night
 
 " general settings
 set mouse=                          " Disable mouse
