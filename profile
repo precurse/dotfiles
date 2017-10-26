@@ -28,21 +28,23 @@ fi
 VISUAL="vim"
 EDITOR="$VISUAL"
 
-PATH="$PATH:$HOME/node_modules/.bin"
-PATH="$PATH:$HOME/bin"
-PATH="$PATH:$HOME/.local/bin"
 PATH="$PATH:/usr/local/sbin"
 PATH="$PATH:/usr/local/bin"
 PATH="$PATH:/opt/local/sbin"
 PATH="$PATH:/opt/local/bin"
+PATH="$PATH:$HOME/node_modules/.bin"
+PATH="$PATH:$HOME/bin"
+PATH="$PATH:$HOME/.local/bin"
 
 export VISUAL EDITOR PATH
 
 # Use ack for FZF fuzzy finder
-if [ -x "$(command -v ack)" ]; then
-  export FZF_DEFAULT_COMMAND='ack -f'
-else
-  export FZF_DEFAULT_COMMAND="find . -type f -print -o -type l -print 2> /dev/null | sed s/^..//"
+if [ -x "$(command -v fzf)" ]; then
+  if [ -x "$(command -v ack)" ] ; then
+    export FZF_DEFAULT_COMMAND='ack -f'
+  else
+    export FZF_DEFAULT_COMMAND="find . -type f -print -o -type l -print 2> /dev/null | sed s/^..//"
+  fi
 fi
 
 # ALIASES
@@ -56,7 +58,7 @@ alias df="df -h"    # human readable
 alias mkdir="mkdir -p" # always make it
 alias genpass="< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32};echo;"
 
-# Use neovim then vim (if neovim not available)
+# Use neovim then vim (if available)
 if [ -x "$(command -v nvim)" ]; then
   alias vi="nvim"
   alias vim="nvim"
@@ -112,6 +114,8 @@ function os_clean { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_
 
 ## OS-specific Stuff
 ##
+
+# Arch Linux
 if case ${ID_LIKE} in arch*) ;; *) false;; esac; then
   alias pacfetch="sudo pacman --sysupgrade --sync --refresh --downloadonly"
   alias pacupdate="sudo pacman --sysupgrade --sync --refresh"
@@ -119,8 +123,9 @@ if case ${ID_LIKE} in arch*) ;; *) false;; esac; then
   function pacdep { comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort); }
 fi
 
+####
 ## SSH AGENT
-##
+####
 SSH_ENV="$HOME/.ssh/environment"
 
 function start_agent {
@@ -142,6 +147,3 @@ if [ -f "${SSH_ENV}" ]; then
 else
   start_agent;
 fi
-## / SSH AGENT ##
-
-
