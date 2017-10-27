@@ -9,6 +9,8 @@
     # We wanna grab those pesky un-added files!
     # https://git-scm.com/docs/git-stash
 
+    stash-rename = "!_() { rev=$(git rev-parse $1) && git stash drop $1 || exit 1 ; git stash store -m \"$2\" $rev; }; _"
+
     glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 
 [push]
