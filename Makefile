@@ -49,8 +49,8 @@ backup:
 
 .PHONY: i3
 i3: confdir
-	ln -fvs "${PWD}/i3-laptop/config" "${HOME}/.config/i3/config" \
-	&& ln -fvs "${DIR}/i3-laptop/i3status.conf" "${HOME}/.i3status.conf"
+	ln -fvs "${PWD}/.config/i3" "${HOME}/.config/" \
+	&& ln -fvs "${PWD}/.config/i3status" "${HOME}/.config/"
 
 .PHONY: x11
 x11:
