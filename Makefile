@@ -18,7 +18,6 @@ shell:
 	ln -fvs "${PWD}/bashrc" "${HOME}/.bashrc" \
 	&& ln -fvs "${PWD}/bash_profile" "${HOME}/.bash_profile" \
 	&& ln -fvs "${PWD}/profile" "${HOME}/.profile" \
-	&& ln -fvs "${PWD}/zshrc" "${HOME}/.zshrc"
 
 .PHONY: ssh
 ssh:
