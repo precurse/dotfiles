@@ -97,8 +97,8 @@ fi
 ## FUNCTIONS
 
 # Up, up, and away
-function up {
-  local ups=""
+up() {
+  ups=""
   for i in $(seq 1 $1)
   do
     ups=$ups"../"
@@ -107,13 +107,13 @@ function up {
 }
 
 # list dir contents after cd
-function cd () { builtin cd "$@" && ls -l; }
+cd() { builtin cd "$@" && ls -l; }
 
 # remove line n from a file (removeline N FILE)
-function removeline () { sed -i $1d $2; }
+removeline() { sed -i $1d $2; }
 
 # Clean all OpenStack env variables
-function os_clean { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_NAME OS_PROJECT_NAME; }
+os_clean() { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_NAME OS_PROJECT_NAME; }
 
 
 ## OS-specific Stuff
@@ -124,7 +124,7 @@ if case ${ID_LIKE} in arch*) ;; *) false;; esac; then
   alias pacfetch="sudo pacman --sysupgrade --sync --refresh --downloadonly"
   alias pacupdate="sudo pacman --sysupgrade --sync --refresh"
 
-  function pacdep { comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort); }
+  #pacdep() { comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort); }
 fi
 
 if case ${ID_LIKE} in openbsd*) ;; *) false;; esac; then
