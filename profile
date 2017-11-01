@@ -5,6 +5,10 @@ then
 else
   echo "WARNING: /etc/os-release not found on this OS. Using 'uname -s'."
   case "$(uname -s)" in
+    OpenBSD)
+      ID_LIKE="openbsd"
+      ;;
+
     Darwin)
       ID_LIKE="osx"
       ;;
@@ -121,6 +125,17 @@ if case ${ID_LIKE} in arch*) ;; *) false;; esac; then
   alias pacupdate="sudo pacman --sysupgrade --sync --refresh"
 
   function pacdep { comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort); }
+fi
+
+if case ${ID_LIKE} in openbsd*) ;; *) false;; esac; then
+  alias sudo="doas $@"
+  alias reboot="doas shutdown -r now"
+  alias shutdown="doas shutdown -p now"
+
+  alias mv="mv -i"
+
+  # i3 in openbsd needs TERMINAL set since it doesn't have i3-sensible-terminal
+  TERMINAL="urxvt"
 fi
 
 ####
