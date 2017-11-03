@@ -27,6 +27,11 @@ else
   esac
 fi
 
+# Load system profile if available
+if [ -f "/etc/profile" ]; then
+    . /etc/profile
+fi
+
 # Environment Variables
 # You should also set $VISUAL, as some programs (correctly) use that instead of $EDITOR (see VISUAL vs. EDITOR)
 VISUAL="vim"
@@ -41,15 +46,6 @@ PATH="$PATH:$HOME/bin"
 PATH="$PATH:$HOME/.local/bin"
 
 export VISUAL EDITOR PATH
-
-# Use ack for FZF fuzzy finder
-if [ -x "$(command -v fzf)" ]; then
-  if [ -x "$(command -v ack)" ] ; then
-    export FZF_DEFAULT_COMMAND='ack -f'
-  else
-    export FZF_DEFAULT_COMMAND="find . -type f -print -o -type l -print 2> /dev/null | sed s/^..//"
-  fi
-fi
 
 # ALIASES
 #
