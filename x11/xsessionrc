@@ -1,3 +1,11 @@
 #!/bin/sh
 # Set $HOME vars before running i3 - for dmenu
 . ~/.profile
+
+if [ -r "~/.Xresources" ]; then
+  xrdb -merge ~/.Xresources
+fi
+
+if [ -r "~/.Xmodmap"  ]; then
+  xmodmap ~/.Xmodmap
+fi
