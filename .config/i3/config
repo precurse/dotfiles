@@ -103,8 +103,9 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
   bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@  +5% # increase
   bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@  -5% # decrease
-  bindsym XF86AudioMicMute exec amixer set Capture toggle                     # mute
-  bindsym XF86Explorer exec /usr/bin/sudo /sbin/modprobe -r uvcvideo    # disable cam
+  bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle    # mute sound
+  bindsym XF86AudioMicMute exec amixer set Capture toggle                 # mute mic
+  bindsym XF86Explorer exec /usr/bin/sudo /sbin/modprobe -r uvcvideo      # disable cam
 
   # Sreen brightness controls
 #  bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
