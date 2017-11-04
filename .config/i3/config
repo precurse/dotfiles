@@ -95,22 +95,20 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 
 ## HW KEY BINDINGS
+# Other unmapped function keys on t440p
+# XF86LaunchA
+# XF86Search
+# XF86Tools
+# XF86Display
 
-  bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@  +2% #increase
-  bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@  -2% #decrease
-  bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
+  bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@  +5% # increase
+  bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@  -5% # decrease
+  bindsym XF86AudioMicMute exec amixer set Capture toggle                     # mute
+  bindsym XF86Explorer exec /usr/bin/sudo /sbin/modprobe -r uvcvideo    # disable cam
 
   # Sreen brightness controls
 #  bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
 #  bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
-
-  # Touchpad
-#  bindsym XF86TouchpadToggle exec /usr/local/bin/touchpad_toggle.sh # toggle touchpad
-
-### / HW KEY BINDINGS
-
-
-
 
 
 # SCRATCH PAD
@@ -166,9 +164,9 @@ bar {
 
 
 ## Shutdown / Lock / Suspend
-bindsym $mod+l exec dm-tool lock
+set $Locker i3lock && sleep 1 && xset dpms force off
 
-set $Locker dm-tool lock && sleep 1 #i3lock && sleep 1 && xset dpms force off
+bindsym $mod+l exec $Locker
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
@@ -188,14 +186,14 @@ bindsym $mod+Pause mode "$mode_system"
 
 exec --no-startup-id xrdb -merge ~/.Xresources
 exec --no-startup-id xmodmap ~/.Xmodmap
-exec --no-startup-id xautolock -locker "dm-tool lock" -time 10 &
+exec --no-startup-id xautolock -time 10 -locker "i3lock && sleep 1 && xset dpms force off" &
 
 # X11 bell events
 exec --no-startup-id pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell
 exec --no-startup-id pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
 
 # 10 Minute Display timeout
-exec --no-startup-id xset dpms 600
+exec --no-startup-id xset dpms 0 0 600
 
 exec --no-startup-id /usr/bin/nm-applet 2>&1 > /dev/null &
 exec --no-startup-id "sleep 3;pasystray"
