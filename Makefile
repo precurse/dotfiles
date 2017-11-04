@@ -53,5 +53,6 @@ i3: confdir
 
 .PHONY: x11
 x11:
-	ln -fvs "${PWD}/Xresources" "${HOME}/.Xresources" \
-	&& ln -fvs "${PWD}/Xmodmap" "${HOME}/.Xmodmap"
+	ln -fvs "${PWD}/x11/Xresources" "${HOME}/.Xresources" \
+	&& ln -fvs "${PWD}/x11/Xmodmap" "${HOME}/.Xmodmap" \
+	&& ln -fvs "${PWD}/x11/xsessionrc" "${HOME}/.xsessionrc"
