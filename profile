@@ -1,3 +1,4 @@
+#!/bin/bash
 ## Get OS Variables
 if [ -f /etc/os-release ]
 then
@@ -53,16 +54,19 @@ case $- in
   *) echo "Not running interactively. Exiting early." && return;;
 esac
 
-# ALIASES
-#
+######
+## ALIASES
+######
+
 alias ..="cd .."
 alias ll="ls -lAh | less"
-alias cp="cp -i"    # prompt before overwrite
-alias mv="mv -i -u" # prompt before overwrite / move only if source file newer
-alias rm="rm -i"    # prompt before overwrite
-alias df="df -h"    # human readable
-alias mkdir="mkdir -p" # always make it
-alias genpass="< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32};echo;"
+alias cp="cp -i"        # prompt before overwrite
+alias mv="mv -i -u"     # prompt before overwrite / move only if source file newer
+alias rm="rm -i"        # prompt before overwrite
+alias df="df -h"        # human readable
+alias free="free -ht"   # human readable + total
+alias mkdir="mkdir -pv" # always make it
+alias wget="wget -c"    # continue download
 
 # Use neovim then vim (if available)
 if [ -x "$(command -v nvim)" ]; then
@@ -96,7 +100,9 @@ else
   echo "git executable not found."
 fi
 
+#######
 ## FUNCTIONS
+#######
 
 # Up, up, and away
 up() {
@@ -105,21 +111,28 @@ up() {
   do
     ups=$ups"../"
   done
-  cd $ups
+  cd $ups || exit
 }
 
 # list dir contents after cd
 cd() { builtin cd "$@" && ls -l; }
 
+# Create dir and go into it
+mcd() { mkdir -p "$1"; cd "$1" || exit;}
+
 # remove line n from a file (removeline N FILE)
-removeline() { sed -i $1d $2; }
+rmline() { sed -i $1d "$2"; }
+alias removeline="rmline"
 
 # Clean all OpenStack env variables
 os_clean() { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_NAME OS_PROJECT_NAME; }
 
+# Password generation
+genpass() { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-32}";echo; }
 
-## OS-specific Stuff
-##
+######
+## OS-specific
+######
 
 # Arch Linux
 if case ${ID_LIKE} in arch*) ;; *) false;; esac; then
@@ -130,14 +143,12 @@ if case ${ID_LIKE} in arch*) ;; *) false;; esac; then
 fi
 
 if case ${ID_LIKE} in openbsd*) ;; *) false;; esac; then
-  alias sudo="doas $@"
   alias reboot="doas shutdown -r now"
   alias shutdown="doas shutdown -p now"
 
   alias mv="mv -i"
 
-  # i3 in openbsd needs TERMINAL set since it doesn't have i3-sensible-terminal
-  TERMINAL="urxvt"
+  sudo() { doas "$@"; }
 fi
 
 ####
@@ -150,6 +161,7 @@ start_agent() {
   env ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
   echo succeeded
   chmod 600 "${SSH_ENV}"
+  # shellcheck source=/home/piranha/.ssh/environment
   . "${SSH_ENV}" > /dev/null
   env ssh-add;
 }
@@ -157,6 +169,7 @@ start_agent() {
 # Source SSH settings, if applicable
 
 if [ -f "${SSH_ENV}" ]; then
+  # shellcheck source=/home/piranha/.profile
   . "${SSH_ENV}" > /dev/null
   ps -p ${SSH_AGENT_PID} > /dev/null || {
       start_agent;
