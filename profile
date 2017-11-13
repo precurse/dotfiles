@@ -64,6 +64,7 @@ alias cp="cp -i"        # prompt before overwrite
 alias mv="mv -i -u"     # prompt before overwrite / move only if source file newer
 alias rm="rm -i"        # prompt before overwrite
 alias df="df -h"        # human readable
+alias du="du -h"        # human readable
 alias free="free -ht"   # human readable + total
 alias mkdir="mkdir -pv" # always make it
 alias wget="wget -c"    # continue download
