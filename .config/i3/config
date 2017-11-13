@@ -151,6 +151,7 @@ bindsym $mod+r mode "resize"
   assign [Class="Firefox"] 1:Web
   assign [Class="Chromium" instance="^crx.*" window_role="pop-up"] 2:Mail
   assign [Class="Chromium"] 1:Web
+  assign [Class="Signal"] 3:Chat
   assign [Class="Tor Browser"] 8:Tor
   assign [Class="Transgui"] 9
   assign [Class="keepassxc"] 10:PassDB
