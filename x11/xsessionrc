@@ -1,11 +1,13 @@
 #!/bin/sh
 # Set $HOME vars before running i3 - for dmenu
-. ~/.profile
 
-if [ -r "~/.Xresources" ]; then
+# shellcheck source=/home/piranha/.profile
+. "$HOME/.profile"
+
+if [ -f "$HOME/.Xresources" ]; then
   xrdb -merge ~/.Xresources
 fi
 
-if [ -r "~/.Xmodmap"  ]; then
+if [ -f "$HOME/.Xmodmap"  ]; then
   xmodmap ~/.Xmodmap
 fi
