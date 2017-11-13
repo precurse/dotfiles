@@ -1,8 +1,8 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-[ -r ~/.profile ] && . ~/.profile
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -r $HOME/.profile ] && . $HOME/.profile
+[ -r $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 [ -r /etc/bash.bashrc ] && source /etc/bash.bashrc
 
@@ -28,9 +28,9 @@ function git_branch {
 function markup_git_branch {
   if [[ -n $@ ]]; then
     if [[ -z $(git status --porcelain 2> /dev/null | tail -n1) ]]; then
-      echo -e " \001\033[32m\002($@)\001\033[0m\002"
+      echo -e " \001\033[32m\002($*)\001\033[0m\002"
     else
-      echo -e " \001\033[31m\002($@)\001\033[0m\002"
+      echo -e " \001\033[31m\002($*)\001\033[0m\002"
     fi
   fi
 }
