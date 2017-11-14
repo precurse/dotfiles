@@ -78,6 +78,11 @@ elif [ -x "$(command -v vim)" ]; then
   alias vi="vim"
 fi
 
+# Use silver searcher instead of ack (if available)
+if [ -x "$(command -v ag)" ]; then
+    alias ack="ag"
+fi
+
 # Xclip pasting
 if [ -x "$(command -v xclip)" ]; then
   alias pbcopy="xclip -selection clipboard -i"
