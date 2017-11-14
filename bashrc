@@ -6,15 +6,6 @@
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 [ -r /etc/bash.bashrc ] && source /etc/bash.bashrc
 
-# Use ack for FZF fuzzy finder
-if [ -x "$(command -v fzf)" ]; then
-  if [ -x "$(command -v ack)" ] ; then
-    export FZF_DEFAULT_COMMAND='ack -f'
-  else
-    export FZF_DEFAULT_COMMAND="find . -type f -print -o -type l -print 2> /dev/null | sed s/^..//"
-  fi
-fi
-
 function openstack_user {
   if [ -n "$OS_USERNAME" ]; then
     echo -n "OS:$OS_USERNAME"
