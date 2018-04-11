@@ -61,7 +61,7 @@ esac
 alias ..="cd .."
 alias ll="ls -lAh | less"
 alias cp="cp -i"        # prompt before overwrite
-alias mv="mv -i -u"     # prompt before overwrite / move only if source file newer
+alias mv="mv -i"     # prompt before overwrite
 alias rm="rm -i"        # prompt before overwrite
 alias df="df -h"        # human readable
 alias du="du -h"        # human readable
@@ -143,14 +143,19 @@ if case ${ID_LIKE} in arch*) ;; *) false;; esac; then
   #pacdep() { comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort); }
 fi
 
+# OpenBSD
 if case ${ID_LIKE} in openbsd*) ;; *) false;; esac; then
   alias reboot="doas shutdown -r now"
   alias shutdown="doas shutdown -p now"
 
-  alias mv="mv -i"
-
   sudo() { doas "$@"; }
 fi
+
+# OSX
+if case ${ID_LIKE} in osx*) ;; *) false;; esac; then
+  PATH="$PATH:$HOME/Library/Python/2.7/bin"
+fi
+
 
 ####
 ## SSH AGENT
