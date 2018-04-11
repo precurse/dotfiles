@@ -4,6 +4,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tpope/vim-commentary'             " comment stuff out
     Plug 'tpope/vim-fugitive'               " git wrapper
     Plug 'tpope/vim-endwise'                " end structures
+    Plug 'alvan/vim-closetag'               " (X)HTML close tags
     Plug 'vim-airline/vim-airline'          " status/tabline
     Plug 'vim-airline/vim-airline-themes'   " themes
     Plug 'w0rp/ale'                         " async lint
