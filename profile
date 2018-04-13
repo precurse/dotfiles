@@ -126,7 +126,7 @@ rmline() { sed -i $1d "$2"; }
 alias removeline="rmline"
 
 # Clean all OpenStack env variables
-os_clean() { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_NAME OS_PROJECT_NAME; }
+os_clean() { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_NAME OS_PROJECT_NAME OS_TENANT_ID OS_IDENTITY_API_VERSION OS_ENDPOINT_TYPE; }
 
 # Password generation
 genpass() { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-32}";echo; }
