@@ -14,6 +14,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'Valloric/YouCompleteMe'           " auto-complete
     Plug 'jiangmiao/auto-pairs'
     Plug 'ctrlpvim/ctrlp.vim'               " fuzzy finder
+    Plug 'diepm/vim-rest-console'
 call plug#end()
 
 filetype plugin indent on
