@@ -135,19 +135,12 @@ genpass() { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-32}";echo; }
 ## OS-specific
 ######
 
-# Arch Linux
-if case ${ID_LIKE} in arch*) ;; *) false;; esac; then
-  alias pacfetch="sudo pacman --sysupgrade --sync --refresh --downloadonly"
-  alias pacupdate="sudo pacman --sysupgrade --sync --refresh"
-
-  #pacdep() { comm -12 <(pactree -srl $1 | sort) <(pacman -Qq | sort); }
-fi
-
 # OpenBSD
 if case ${ID_LIKE} in openbsd*) ;; *) false;; esac; then
   alias reboot="doas shutdown -r now"
   alias shutdown="doas shutdown -p now"
 
+  genpass() { < /dev/urandom strings -n1 | tr -dc _A-Z-a-z-0-9 | dd count=1 bs=32 2>/dev/null;echo; }
   sudo() { doas "$@"; }
 fi
 

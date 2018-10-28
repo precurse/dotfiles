@@ -55,4 +55,5 @@ i3: confdir
 x11:
 	ln -fs "${PWD}/x11/Xresources" "${HOME}/.Xresources" \
 	&& ln -fs "${PWD}/x11/Xmodmap" "${HOME}/.Xmodmap" \
+	&& ln -fs "${PWD}/x11/xsession" "${HOME}/.xsession" \
 	&& ln -fs "${PWD}/x11/xsessionrc" "${HOME}/.xsessionrc"
