@@ -137,6 +137,7 @@ genpass() { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-32}";echo; }
 
 # OpenBSD
 if case ${ID_LIKE} in openbsd*) ;; *) false;; esac; then
+  alias mkdir="mkdir -p" # always make it
   alias reboot="doas shutdown -r now"
   alias shutdown="doas shutdown -p now"
 
