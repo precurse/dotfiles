@@ -10,49 +10,49 @@ confdir:
 
 .PHONY: tmux
 tmux:
-	ln -fvs ${PWD}/tmux.conf ${HOME}/.tmux.conf \
+	ln -fs ${PWD}/tmux.conf ${HOME}/.tmux.conf \
 	&& tmux source-file ~/.tmux.conf || true
 
 .PHONY: shell
 shell:
-	ln -fvs "${PWD}/bashrc" "${HOME}/.bashrc" \
-	&& ln -fvs "${PWD}/bash_profile" "${HOME}/.bash_profile" \
-	&& ln -fvs "${PWD}/profile" "${HOME}/.profile" \
+	ln -fs "${PWD}/bashrc" "${HOME}/.bashrc" \
+	&& ln -fs "${PWD}/bash_profile" "${HOME}/.bash_profile" \
+	&& ln -fs "${PWD}/profile" "${HOME}/.profile" \
 
 .PHONY: ssh
 ssh:
 	mkdir -p "${HOME}/.ssh" \
-	&& ln -fvs "${PWD}/ssh/authorized_keys" "${HOME}/.ssh/authorized_keys"
+	&& ln -fs "${PWD}/ssh/authorized_keys" "${HOME}/.ssh/authorized_keys"
 
 .PHONY: vim
 vim: confdir
-	ln -fvs "${PWD}/.config/nvim" "${HOME}/.config/nvim" \
-	&& ln -fvs "${PWD}/.config/nvim" "${HOME}/.vim" \
-	&& ln -fvs "${PWD}/.config/nvim/init.vim" "${HOME}/.vimrc"
+	ln -fs "${PWD}/.config/nvim" "${HOME}/.config/nvim" \
+	&& ln -fs "${PWD}/.config/nvim" "${HOME}/.vim" \
+	&& ln -fs "${PWD}/.config/nvim/init.vim" "${HOME}/.vimrc"
 
 .PHONY: git
 git:
-	ln -fvs "${PWD}/gitconfig" "${HOME}/.gitconfig"
+	ln -fs "${PWD}/gitconfig" "${HOME}/.gitconfig"
 
 .PHONY: backup
 backup:
 	mkdir -p "${HOME}/.dotbackup" \
-    && cp -a "${HOME}/.tmux.conf" "${HOME}/.dotbackup/" ||true \
-    && cp -a "${HOME}/.bash_profile" "${HOME}/.dotbackup/" ||true \
-    && cp -a "${HOME}/.bashrc" "${HOME}/.dotbackup/" ||true \
-    && cp -a "${HOME}/.profile" "${HOME}/.dotbackup/" ||true \
-    && cp -a "${HOME}/.ssh/authorized_keys" "${HOME}/.dotbackup/" ||true \
-    && cp -a "${HOME}/.gitconfig" "${HOME}/.dotbackup/" ||true \
-    && cp -a "${HOME}/.vim" "${HOME}/.dotbackup/" ||true \
-    && cp -a "${HOME}/.vimrc" "${HOME}/.dotbackup/" ||true
+    && cp -rp "${HOME}/.tmux.conf" "${HOME}/.dotbackup/" ||true \
+    && cp -rp "${HOME}/.bash_profile" "${HOME}/.dotbackup/" ||true \
+    && cp -rp "${HOME}/.bashrc" "${HOME}/.dotbackup/" ||true \
+    && cp -rp "${HOME}/.profile" "${HOME}/.dotbackup/" ||true \
+    && cp -rp "${HOME}/.ssh/authorized_keys" "${HOME}/.dotbackup/" ||true \
+    && cp -rp "${HOME}/.gitconfig" "${HOME}/.dotbackup/" ||true \
+    && cp -rp "${HOME}/.vim" "${HOME}/.dotbackup/" ||true \
+    && cp -rp "${HOME}/.vimrc" "${HOME}/.dotbackup/" ||true
 
 .PHONY: i3
 i3: confdir
-	ln -fvs "${PWD}/.config/i3" "${HOME}/.config/" \
-	&& ln -fvs "${PWD}/.config/i3status" "${HOME}/.config/"
+	ln -fs "${PWD}/.config/i3" "${HOME}/.config/" \
+	&& ln -fs "${PWD}/.config/i3status" "${HOME}/.config/"
 
 .PHONY: x11
 x11:
-	ln -fvs "${PWD}/x11/Xresources" "${HOME}/.Xresources" \
-	&& ln -fvs "${PWD}/x11/Xmodmap" "${HOME}/.Xmodmap" \
-	&& ln -fvs "${PWD}/x11/xsessionrc" "${HOME}/.xsessionrc"
+	ln -fs "${PWD}/x11/Xresources" "${HOME}/.Xresources" \
+	&& ln -fs "${PWD}/x11/Xmodmap" "${HOME}/.Xmodmap" \
+	&& ln -fs "${PWD}/x11/xsessionrc" "${HOME}/.xsessionrc"
