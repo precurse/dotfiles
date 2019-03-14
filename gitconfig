@@ -2,9 +2,10 @@
     name = Andrew Klaus
     email = andrewklaus@gmail.com
 
+# Based on: https://blog.scottnonnenberg.com/better-git-configuration/
 [alias]
     prune = fetch --prune
-
+    undo = reset --soft HEAD^
     stash-all = stash save --include-untracked
     # We wanna grab those pesky un-added files!
     # https://git-scm.com/docs/git-stash
