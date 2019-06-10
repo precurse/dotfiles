@@ -74,6 +74,10 @@ if [ -x "$(command -v nvim)" ]; then
   alias vi="nvim"
   alias vim="nvim"
   alias vimdiff="nvim -d"
+
+  # Export as well
+  export VISUAL="nvim"
+  export EDITOR="$VISUAL"
 elif [ -x "$(command -v vim)" ]; then
   alias vi="vim"
 fi
