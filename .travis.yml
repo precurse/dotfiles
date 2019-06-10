@@ -2,8 +2,7 @@ language: c
 
 os:
   - linux
-  - osx
 
 script:
-  - make
+  - ./install.sh
   - source ~/.bashrc
