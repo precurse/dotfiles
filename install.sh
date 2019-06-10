@@ -13,6 +13,7 @@ if ! command -v stow >/dev/null; then
         fi
 
         if [ "$ID" = "debian" ] || [ "$ID" = "ubuntu" ]; then
+            sudo apt update
             sudo apt install -y stow
         fi
     else
