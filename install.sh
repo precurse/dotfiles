@@ -6,18 +6,17 @@ set -ex
 if ! command -v stow >/dev/null; then
     # Linux
     if [ -f /etc/os-release ]; then
-	source /etc/os-release
+        . /etc/os-release
 
-	if [ $ID == "fedora" ]; then
-	    sudo dnf install -y stow
-	fi
+        if [ $ID == "fedora" ]; then
+            sudo dnf install -y stow
+        fi
 
-	if [ $ID == "debian" ]; then
-	    sudo apt install -y stow
-	fi
-
+        if [ $ID == "debian" ]; then
+            sudo apt install -y stow
+        fi
     else
-	echo "Please install GNU stow manually"
+        echo "Please install GNU stow manually"
     fi
 fi
 
