@@ -34,6 +34,10 @@ vim: confdir
 git:
 	ln -fs "${PWD}/gitconfig" "${HOME}/.gitconfig"
 
+.PHONY: emacs
+emacs:
+	ln -fs "${PWD}/emacs/.emacs.d" "${HOME}/.emacs.d"
+
 .PHONY: backup
 backup:
 	mkdir -p "${HOME}/.dotbackup" \
@@ -44,7 +48,8 @@ backup:
     && cp -rp "${HOME}/.ssh/authorized_keys" "${HOME}/.dotbackup/" ||true \
     && cp -rp "${HOME}/.gitconfig" "${HOME}/.dotbackup/" ||true \
     && cp -rp "${HOME}/.vim" "${HOME}/.dotbackup/" ||true \
-    && cp -rp "${HOME}/.vimrc" "${HOME}/.dotbackup/" ||true
+    && cp -rp "${HOME}/.vimrc" "${HOME}/.dotbackup/" ||true \
+    && cp -rp "${HOME}/.emacs.d" "${HOME}/.dotbackup/" ||true
 
 .PHONY: i3
 i3: confdir

@@ -1,0 +1,70 @@
+* Configure =use-package=
+    #+BEGIN_SRC emacs-lisp
+    (require 'use-package-ensure)
+    (setq use-package-always-ensure t)
+
+    #+END_SRC
+
+* Use evil
+    #+BEGIN_SRC emacs-lisp
+    (use-package evil
+    :config
+    (evil-mode 1))
+
+
+    (use-package evil-surround
+    :config
+    (global-evil-surround-mode 1))
+
+    (use-package evil-org
+    :after org
+    :config
+    (add-hook 'org-mode-hook 'evil-org-mode)
+    (add-hook 'evil-org-mode-hook
+	(global-evil-surround-mode 1))
+    )
+
+    #+END_SRC  
+
+* Themes
+    #+BEGIN_SRC emacs-lisp
+	;; Themes
+	(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+	(add-to-list 'load-path "~/.emacs.d/themes")
+	(load-theme 'tomorrow-night t)
+    #+END_SRC
+
+* Markdown
+    #+BEGIN_SRC emacs-lisp
+    (require 'markdown-mode)
+    (require 'markdown-mode+)
+    (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
+    (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+    (setq markdown-css-paths `(,(expand-file-name "Documents/markdown.css")))
+
+    #+END_SRC
+* Magit
+#+BEGIN_SRC emacs-lisp
+(use-package magit
+
+  :config
+  (use-package evil-magit)
+  (use-package with-editor)
+)
+#+END_SRC
+* All else
+    #+BEGIN_SRC emacs-lisp
+    (custom-set-variables
+    ;; custom-set-variables was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+    ;; Your init file should contain only one such instance.
+    ;; If there is more than one, they won't work right.
+    '(package-selected-packages (quote (markdown-mode+ markdown-mode evil-org evil ##))))
+    (custom-set-faces
+    ;; custom-set-faces was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+    ;; Your init file should contain only one such instance.
+    ;; If there is more than one, they won't work right.
+    )
+
+    #+END_SRC
