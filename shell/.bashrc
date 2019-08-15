@@ -5,6 +5,7 @@
 [ -r $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 [ -r /etc/bash.bashrc ] && source /etc/bash.bashrc
+[ -r /etc/bashrc ] && source /etc/bashrc
 
 function openstack_user {
   if [ -n "$OS_USERNAME" ]; then

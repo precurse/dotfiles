@@ -6,7 +6,8 @@ os:
 
 script:
   - ./install.sh
-  - source ~/.bashrc
+  - cd ../
+  - source .bashrc
   - genpass
   - mkdir test_dir
   - mcd test_dir2
