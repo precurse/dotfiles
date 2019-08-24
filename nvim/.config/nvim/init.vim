@@ -15,6 +15,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'jiangmiao/auto-pairs'
     Plug 'ctrlpvim/ctrlp.vim'               " fuzzy finder
     Plug 'diepm/vim-rest-console'
+    Plug 'zeek/vim-zeek'
 call plug#end()
 
 filetype plugin indent on
