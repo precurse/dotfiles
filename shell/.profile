@@ -98,6 +98,8 @@ if [ -x "$(command -v git)" ]; then
   alias gco="git checkout"
   alias ga="git add"
   alias gb="git branch"
+  alias gd="git diff"
+  alias gdc="git diff --cached"
   alias gm="git merge"
   alias gps="git push"
   alias gpl="git pull"
