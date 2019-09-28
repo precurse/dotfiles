@@ -35,6 +35,18 @@ set autoread
 set relativenumber
 let mapleader="\<space>"
 
+"save current buffer
+nnoremap <leader>w :w<cr>
+
+"replace the word under cursor
+nnoremap <leader>* :%s/\<<c-r><c-w>\>//g<left><left>
+
+"move lines around
+nnoremap <leader>k :m-2<cr>==
+nnoremap <leader>j :m+<cr>==
+xnoremap <leader>k :m-2<cr>gv=gv
+xnoremap <leader>j :m'>+<cr>gv=gv
+
 " indenting
 set tabstop=4
 set softtabstop=4
