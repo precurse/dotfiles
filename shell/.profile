@@ -137,6 +137,17 @@ os_clean() { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_
 # Password generation
 genpass() { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-32}";echo; }
 
+# One liners
+pyftp() { command python -m pyftpdlib -p2121;  }
+pyftpdl() { command python -m pyftpdlib -p2121 -w "$@"; }
+pyhttp() { command python -m SimpleHTTPServer 8000; }
+
+NCAT_CMD="ncat -v --nodns --keep-open --listen 5555"
+ncl() { command $NCAT_CMD; }
+ncls() { command $NCAT_CMD --ssl; }
+ncdl() { command $NCAT_CMD > "$@";  }
+ncdls() { command $NCAT_CMD --ssl > "$@";  }
+
 ######
 ## OS-specific
 ######
