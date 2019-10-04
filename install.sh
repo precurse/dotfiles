@@ -34,6 +34,16 @@ if ! command -v stow >/dev/null; then
     fi
 fi
 
+# Install all
+stow git
+stow shell
+#stow emacs
+#stow nvim
+#stow i3
+#stow ssh
+#stow tmux
+#stow x11
+
 if [ "$#" -eq 1 ]; then
     # Testing
     . ../.bashrc
@@ -50,13 +60,3 @@ if [ "$#" -eq 1 ]; then
     shellcheck -s sh ../.profile
     shellcheck -s bash ../.bashrc
 fi
-
-# Install all
-stow git
-stow shell
-#stow emacs
-#stow nvim
-#stow i3
-#stow ssh
-#stow tmux
-#stow x11
