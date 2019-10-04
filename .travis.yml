@@ -1,3 +1,4 @@
+---
 language: c
 
 os:
@@ -7,6 +8,8 @@ os:
 script:
   - ./install.sh
   - cd ../
+  - shellcheck -s sh .profile
+  - shellcheck -s bash .bashrc
   - source .bashrc
   - genpass
   - mkdir test_dir

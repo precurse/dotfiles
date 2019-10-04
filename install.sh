@@ -14,7 +14,7 @@ if ! command -v stow >/dev/null; then
 
         if [ "$ID" = "debian" ] || [ "$ID" = "ubuntu" ]; then
             sudo apt update
-            sudo apt install -y stow
+            sudo apt install -y stow shellcheck
         fi
     else
         # Use uname instead
@@ -25,7 +25,7 @@ if ! command -v stow >/dev/null; then
 
           Darwin)
             brew update
-            brew install stow
+            brew install stow shellcheck
             ;;
           *)
             echo "Please install GNU stow manually"
