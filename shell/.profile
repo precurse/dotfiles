@@ -2,6 +2,7 @@
 ## Get OS Variables
 if [ -f /etc/os-release ]
 then
+  # shellcheck disable=SC1091
   . /etc/os-release
 else
   echo "WARNING: /etc/os-release not found on this OS. Using 'uname -s'."
@@ -30,6 +31,7 @@ fi
 
 # Load system profile if available
 if [ -f "/etc/profile" ]; then
+    # shellcheck disable=SC1091
     . /etc/profile
 fi
 
@@ -114,7 +116,8 @@ fi
 # Up, up, and away
 up() {
   ups=""
-  for i in $(seq 1 $1)
+  # shellcheck disable=SC2034  # i is unused
+  for i in $(seq 1 "$1")
   do
     ups=$ups"../"
   done
@@ -128,7 +131,7 @@ cd() { builtin cd "$@" && ls -l; }
 mcd() { mkdir -p "$1"; cd "$1" || exit;}
 
 # remove line n from a file (removeline N FILE)
-rmline() { sed -i $1d "$2"; }
+rmline() { sed -i "$1d" "$2"; }
 alias removeline="rmline"
 
 # Clean all OpenStack env variables

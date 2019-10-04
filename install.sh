@@ -34,6 +34,22 @@ if ! command -v stow >/dev/null; then
     fi
 fi
 
+if [ "$#" -eq 1 ]; then
+    # Testing
+    . ../.bashrc
+    genpass
+    ll
+    mcd tmp1
+    touch file1
+    cp file1 file2
+    cd ..
+    mv tmp1 tmp2
+    rm tmp2
+    df
+    du
+    shellcheck -s sh ../.profile
+    shellcheck -s bash ../.bashrc
+fi
 
 # Install all
 stow git

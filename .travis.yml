@@ -6,15 +6,4 @@ os:
   - osx
 
 script:
-  - ./install.sh
-  - cd ../
-  - shellcheck -s sh .profile
-  - shellcheck -s bash .bashrc
-  - source .bashrc
-  - genpass
-  - mkdir test_dir
-  - mcd test_dir2
-  - touch test_file
-  - cp test_file test_file2
-  - mv test_file2 test_file3
-  - rm test_file
+  - ./install.sh test
