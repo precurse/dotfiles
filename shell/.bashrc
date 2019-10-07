@@ -2,6 +2,7 @@
 [[ $- != *i* ]] && return
 
 [ -r $HOME/.profile ] && . $HOME/.profile
+[ -r $HOME/.bashsec ] && . $HOME/.bashsec
 [ -r $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 [ -r /etc/bash.bashrc ] && source /etc/bash.bashrc

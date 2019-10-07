@@ -141,53 +141,6 @@ os_clean() { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_
 genpass() { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-32}";echo; }
 
 ######
-## SECURITY TOOLS
-######
-
-# Python HTTP one-liners
-if [ -x "$(command -v python3 2>/dev/null)" ]; then
-    pyhttp() { command python3 -m http.server 8000; }
-
-elif [ -x "$(command -v python2 2>/dev/null)" ]; then
-    pyhttp() { command python -m SimpleHTTPServer 8000; }
-fi
-
-# Python FTP one-liners
-if [ -x "$(command -v python3 -c "import pyftpdlib" 2>/dev/null)"  ]; then
-    pyftp() { command python -m pyftpdlib -p2121;  }
-    pyftpdl() { command python -m pyftpdlib -p2121 -w "$@"; }
-
-elif [ -x "$(command -v python2 -c "import pyftpdlib" 2>/dev/null)"  ]; then
-    pyftp() { command python -m pyftpdlib -p2121;  }
-    pyftpdl() { command python -m pyftpdlib -p2121 -w "$@"; }
-fi
-
-# NCAT one-liners
-if [ -x "$(command -v ncat)" ]; then
-  NCAT_CMD="ncat -v --nodns --keep-open --listen 5555"
-  ncl() { command $NCAT_CMD; }
-  ncls() { command $NCAT_CMD --ssl; }
-  ncdl() { command $NCAT_CMD > "$@";  }
-  ncdls() { command $NCAT_CMD --ssl > "$@";  }
-
-elif [ -x "$(command -v nc)" ]; then
-  # Fallback to nc - no TLS support
-  NC_CMD="nc -vnkl 5555"
-  ncl() { command $NC_CMD; }
-  ncdl() { command $NC_CMD > "$@";  }
-fi
-
-# Target
-newtarget () {
-  if [ "$#" -ne 1 ]; then
-      echo "Must specify a target"
-  else
-    mcd "${1}"
-    echo "${1}" > target.txt
-  fi
-}
-
-######
 ## OS-specific
 ######
 
