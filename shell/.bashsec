@@ -37,8 +37,8 @@ function enmap {
 }
 
 function nmap_run {
-    TIMESTAMP=$(date +%T)
-    NMAP_CMD="nmap -v -oA nmap_${TIMESTAMP}"
+    TIMESTAMP=$(date +%s)
+    NMAP_CMD="nmap -v --open -oA nmap_${TIMESTAMP}"
 
     if [ -n "$3" ]; then
         TARGET="${3}"
