@@ -18,9 +18,74 @@ elif [ -x "$(command -v python2 -c "import pyftpdlib" 2>/dev/null)"  ]; then
     pyftpdl() { command python -m pyftpdlib -p2121 -w "$@"; }
 fi
 
+function enmap {
+    T_FILE="target.txt"
+
+    case "$1" in
+        nmap)
+            nmap_run "$@"
+            ;;
+        dns)
+            dns_run "$@"
+            ;;
+        http)
+            http_run
+            ;;
+        *)
+            echo "Use nmap, dns, or http"
+    esac
+}
+
+function nmap_run {
+    TIMESTAMP=$(date +%T)
+    NMAP_CMD="nmap -v -oA nmap_${TIMESTAMP}"
+
+    if [ -n "$3" ]; then
+        TARGET="${3}"
+    elif [ -r ${T_FILE} ]; then
+        echo "Using ${T_FILE}"
+        TARGET="-iL ${T_FILE}"
+    else
+        echo "No target set or target.txt found"
+        echo "Usage: enmap nmap <type> <ip/network>"
+        return 1
+    fi
+
+    case "$2" in
+        quick)
+            NMAP_FLAGS=""
+            ;;
+        full)
+            NMAP_FLAGS="-sC -sV"
+            ;;
+        udp)
+            NMAP_FLAGS="-sU --top 1000"
+            ;;
+        vuln)
+            NMAP_FLAGS="-sV --script vulnscan"
+            ;;
+        *)
+            echo "Use quick, full, udp, or vuln. Not $2"
+    esac
+
+    echo "Running: ${NMAP_CMD} ${NMAP_FLAGS} ${TARGET}"
+    ${NMAP_CMD} ${NMAP_FLAGS} ${TARGET}
+
+}
+
+function dns_run {
+    # dns recon / zone transfer test
+    return 0
+}
+
+function http_run () {
+    # nikto
+    return 0
+}
+
 # NCAT one-liners
 if [ -x "$(command -v ncat)" ]; then
-  NCAT_CMD="ncat -v --nodns --keep-open --listen 5555"
+  NCAT_CMD="script ncat_output.txt ncat -v --nodns --keep-open --listen 5555"
   ncl() { command $NCAT_CMD; }
   ncls() { command $NCAT_CMD --ssl; }
   ncdl() { command $NCAT_CMD > "$@";  }
@@ -28,13 +93,13 @@ if [ -x "$(command -v ncat)" ]; then
 
 elif [ -x "$(command -v nc)" ]; then
   # Fallback to nc - no TLS support
-  NC_CMD="nc -vnkl 5555"
+  NC_CMD="script ncat_output.txt nc -vnkl 5555"
   ncl() { command $NC_CMD; }
   ncdl() { command $NC_CMD > "$@";  }
 fi
 
 # Target
-newtarget () {
+function newtarget {
   if [ "$#" -ne 1 ]; then
       echo "Must specify a target"
   else
