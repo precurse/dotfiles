@@ -85,17 +85,17 @@ function http_run () {
 
 # NCAT one-liners
 if [ -x "$(command -v ncat)" ]; then
-  NCAT_CMD="script ncat_output.txt ncat -v --nodns --keep-open --listen 5555"
-  ncl() { command $NCAT_CMD; }
-  ncls() { command $NCAT_CMD --ssl; }
-  ncdl() { command $NCAT_CMD > "$@";  }
-  ncdls() { command $NCAT_CMD --ssl > "$@";  }
+  NCAT_CMD="script ncat_output.txt command ncat -v --nodns --keep-open --listen"
+  ncl() { command $NCAT_CMD ${1:-5555}; }
+  ncls() { command $NCAT_CMD --ssl ${1:-5555}; }
+  ncdl() { command $NCAT_CMD ${1:-5555} > "$2" ;  }
+  ncdls() { command $NCAT_CMD --ssl ${1:-5555} > "$2";  }
 
 elif [ -x "$(command -v nc)" ]; then
   # Fallback to nc - no TLS support
-  NC_CMD="script ncat_output.txt nc -vnkl 5555"
-  ncl() { command $NC_CMD; }
-  ncdl() { command $NC_CMD > "$@";  }
+  NC_CMD="script ncat_output.txt command nc -vnkl"
+  ncl() { command $NC_CMD ${1:-5555}; }
+  ncdl() { command $NC_CMD ${1:-5555} > "$@";  }
 fi
 
 # Target
