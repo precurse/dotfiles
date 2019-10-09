@@ -1,89 +1,24 @@
 #!/bin/bash
 
-# Python HTTP one-liners
+# Python HTTP one-liners (default port 80)
 if [ -x "$(command -v python3 2>/dev/null)" ]; then
-    pyhttp() { command python3 -m http.server ${1:-80}; }
+  pyhttp() { command python3 -m http.server ${1:-80}; }
 
 elif [ -x "$(command -v python2 2>/dev/null)" ]; then
-    pyhttp() { command python -m SimpleHTTPServer ${1:-80}; }
+  pyhttp() { command python -m SimpleHTTPServer ${1:-80}; }
 fi
 
-# Python FTP one-liners
-if [ -x "$(command -v python3 -c "import pyftpdlib" 2>/dev/null)"  ]; then
-    pyftp() { command python -m pyftpdlib -p${1:-21};  }
-    pyftpdl() { command python -m pyftpdlib -p${1:-21} -w; }
+# Python FTP one-liners (default port 21)
+if command python3 -c "import pyftpdlib" &>/dev/null; then
+  pyftp() { command python -m pyftpdlib -p${1:-21};  }
+  pyftpdl() { command python -m pyftpdlib -p${1:-21} -w; }
 
-elif [ -x "$(command -v python2 -c "import pyftpdlib" 2>/dev/null)"  ]; then
-    pyftp() { command python -m pyftpdlib -p${1:-21};  }
-    pyftpdl() { command python -m pyftpdlib -p${1:-21} -w; }
+elif command python2 -c "import pyftpdlib" &>/dev/null; then
+  pyftp() { command python -m pyftpdlib -p${1:-21};  }
+  pyftpdl() { command python -m pyftpdlib -p${1:-21} -w; }
 fi
 
-function enmap {
-    T_FILE="target.txt"
-
-    case "$1" in
-        nmap)
-            nmap_run "$@"
-            ;;
-        dns)
-            dns_run "$@"
-            ;;
-        http)
-            http_run
-            ;;
-        *)
-            echo "Use nmap, dns, or http"
-    esac
-}
-
-function nmap_run {
-    TIMESTAMP=$(date +%s)
-    NMAP_CMD="nmap -v --open -oA nmap_${TIMESTAMP}"
-
-    if [ -n "$3" ]; then
-        TARGET="${3}"
-    elif [ -r ${T_FILE} ]; then
-        echo "Using ${T_FILE}"
-        TARGET="-iL ${T_FILE}"
-    else
-        echo "No target set or target.txt found"
-        echo "Usage: enmap nmap <type> <ip/network>"
-        return 1
-    fi
-
-    case "$2" in
-        quick)
-            NMAP_FLAGS=""
-            ;;
-        full)
-            NMAP_FLAGS="-sC -sV"
-            ;;
-        udp)
-            NMAP_FLAGS="-sU --top 1000"
-            ;;
-        vuln)
-            NMAP_FLAGS="-sV --script vulnscan"
-            ;;
-        *)
-            echo "Use quick, full, udp, or vuln. Not $2"
-    esac
-
-    echo "Running: ${NMAP_CMD} ${NMAP_FLAGS} ${TARGET}"
-    ${NMAP_CMD} ${NMAP_FLAGS} ${TARGET}
-
-}
-
-function dns_run {
-    # dns recon / zone transfer test
-    return 0
-}
-
-function http_run () {
-    # nikto
-    return 0
-}
-
-# NCAT one-liners
+# NCAT one-liners (default port 5555)
 if [ -x "$(command -v ncat)" ]; then
   NCAT_CMD="script ncat_output.txt command ncat -v --nodns --keep-open --listen"
   ncl() { command $NCAT_CMD ${1:-5555}; }
@@ -98,10 +33,75 @@ elif [ -x "$(command -v nc)" ]; then
   ncdl() { command $NC_CMD ${1:-5555} > "$@";  }
 fi
 
+function enmap {
+  T_FILE="target.txt"
+
+  case "$1" in
+    nmap)
+      nmap_run "$@"
+      ;;
+    dns)
+      dns_run "$@"
+      ;;
+    http)
+      http_run
+      ;;
+    *)
+      echo "Use nmap, dns, or http"
+  esac
+}
+
+function nmap_run {
+  TIMESTAMP=$(date +%s)
+  NMAP_CMD="nmap -v --open -oA nmap_${TIMESTAMP}"
+
+  if [ -n "$3" ]; then
+    TARGET="${3}"
+  elif [ -r ${T_FILE} ]; then
+    echo "Using ${T_FILE}"
+    TARGET="-iL ${T_FILE}"
+  else
+    echo "No target set or target.txt found"
+    echo "Usage: enmap nmap <type> <ip/network>"
+    return 1
+  fi
+
+  case "$2" in
+    quick)
+      NMAP_FLAGS=""
+      ;;
+    full)
+      NMAP_FLAGS="-sC -sV -p-"
+      ;;
+    udp)
+      NMAP_FLAGS="-sU --top 1000"
+      ;;
+    vuln)
+      NMAP_FLAGS="-sV --script vulnscan"
+      ;;
+    *)
+      echo "Use quick, full, udp, or vuln. Not $2"
+  esac
+
+  echo "Running: ${NMAP_CMD} ${NMAP_FLAGS} ${TARGET}"
+  ${NMAP_CMD} ${NMAP_FLAGS} ${TARGET}
+
+}
+
+function dns_run {
+  # dns recon / zone transfer test
+  return 0
+}
+
+function http_run () {
+  # nikto
+  return 0
+}
+
 # Target
 function newtarget {
   if [ "$#" -ne 1 ]; then
-      echo "Must specify a target"
+    echo "Must specify a target"
   else
     mcd "${1}"
     echo "${1}" > target.txt
