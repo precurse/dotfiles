@@ -6,4 +6,5 @@ os:
   - osx
 
 script:
+  - shopt -s expand_aliases
   - ./install.sh test

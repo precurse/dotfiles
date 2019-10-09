@@ -46,7 +46,7 @@ stow shell
 
 if [ "$#" -eq 1 ]; then
     # Testing
-    shopt -s expand_aliases
+    export TRAVIS_FORCE=true
     . ../.profile
     genpass
     ll

@@ -50,12 +50,6 @@ PATH="$PATH:$HOME/.local/bin"
 
 export VISUAL EDITOR PATH
 
-# Exit earlier if non-interactive. Don't want aliases or SSH-agent setup on login shells
-case $- in
-  *i*) :;;
-  *) echo "Not running interactively. Exiting early." && return;;
-esac
-
 ######
 ## ALIASES
 ######
@@ -159,6 +153,11 @@ if case ${ID_LIKE} in osx*) ;; *) false;; esac; then
   PATH="$PATH:$HOME/Library/Python/2.7/bin"
 fi
 
+# Exit earlier if non-interactive. Don't want aliases or SSH-agent setup on login shells
+case $- in
+  *i*) :;;
+  *) echo "Not running interactively. Exiting early." && return;;
+esac
 
 ####
 ## SSH AGENT
