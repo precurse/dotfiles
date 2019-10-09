@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -ex
 
 # Ensure GNU stow installed
@@ -46,6 +46,7 @@ stow shell
 
 if [ "$#" -eq 1 ]; then
     # Testing
+    shopt -s expand_aliases
     . ../.bashrc
     genpass
     ll
