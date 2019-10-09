@@ -2,7 +2,7 @@
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
-      *) [[ "$FORCE_TRAVIS" = true ]] || return;;
+      *) return;;
   esac
 
 [ -r $HOME/.profile ] && . $HOME/.profile

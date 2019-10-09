@@ -46,9 +46,8 @@ stow shell
 
 if [ "$#" -eq 1 ]; then
     # Testing
-    export FORCE_TRAVIS=true
     shopt -s expand_aliases
-    . ../.bashrc
+    . ../.profile
     genpass
     ll
     mcd tmp1
