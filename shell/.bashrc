@@ -1,6 +1,9 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
 # If not running interactively, don't do anything
-# Force for travis-ci
-[[ $- != *i* || $FORCE_TRAVIS ]] && return
+case $- in
+    *i*) ;;
+      *) [[ "$FORCE_TRAVIS" = true ]] || return;;
+  esac
 
 [ -r $HOME/.profile ] && . $HOME/.profile
 [ -r $HOME/.bashsec ] && . $HOME/.bashsec
