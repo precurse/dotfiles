@@ -1,5 +1,6 @@
 # If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+# Force for travis-ci
+[[ $- != *i* || $FORCE_TRAVIS ]] && return
 
 [ -r $HOME/.profile ] && . $HOME/.profile
 [ -r $HOME/.bashsec ] && . $HOME/.bashsec

@@ -46,6 +46,7 @@ stow shell
 
 if [ "$#" -eq 1 ]; then
     # Testing
+    export FORCE_TRAVIS=1
     shopt -s expand_aliases
     . ../.bashrc
     genpass
