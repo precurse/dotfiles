@@ -175,9 +175,11 @@ start_agent() {
 }
 
 # Source SSH settings, if applicable
+# SSH_AUTH_SOCKET for ssh-agent forwarding
+if [ ! -z "${SSH_AUTH_SOCK}" ]; then
+  echo "Forwarded SSH Agent Found"
 
-if [ -f "${SSH_ENV}" ]; then
-  # shellcheck source=/home/piranha/.profile
+elif [ -f "${SSH_ENV}" ]; then
   . "${SSH_ENV}" > /dev/null
   ps -p ${SSH_AGENT_PID} > /dev/null || {
       start_agent;
