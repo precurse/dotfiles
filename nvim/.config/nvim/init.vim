@@ -32,7 +32,6 @@ set nobackup                        " Use vcs
 set noswapfile                      " Use vcs
 set grepprg=ack
 set autoread
-set relativenumber
 let mapleader="\<space>"
 
 "save current buffer
