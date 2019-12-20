@@ -1,5 +1,10 @@
 #!/bin/bash
 
+function docksec {
+    CMD="sudo docker run -v ${PWD}:/data --user ${UID}:$(id -g) -it precurse/security-tools"
+    command ${CMD} $@
+}
+
 # Python HTTP one-liners (default port 80)
 if [ -x "$(command -v python3 2>/dev/null)" ]; then
   pyhttp() { command python3 -m http.server ${1:-80}; }
