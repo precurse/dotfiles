@@ -64,6 +64,7 @@ alias du="du -h"        # human readable
 alias free="free -ht"   # human readable + total
 alias mkdir="mkdir -pv" # always make it
 alias wget="wget -c"    # continue download
+alias docker="sudo docker"
 
 # Use neovim then vim (if available)
 if [ -x "$(command -v nvim)" ]; then
@@ -145,7 +146,7 @@ dockshell() {
         return
     fi
 
-    docker run -v "${PWD}":"${PWD}" --user "${UID}":"$(id -g)" -w "${PWD}" -it "${IMAGE}" /bin/sh
+    sudo docker run -v "${PWD}":"${PWD}" -w "${PWD}" -it "${IMAGE}"
 }
 
 ######
@@ -165,6 +166,7 @@ fi
 # OSX
 if case ${ID_LIKE} in osx*) ;; *) false;; esac; then
   PATH="$PATH:$HOME/Library/Python/2.7/bin"
+  alias docker="docker"
 fi
 
 # Exit earlier if non-interactive. Don't want aliases or SSH-agent setup on login shells
