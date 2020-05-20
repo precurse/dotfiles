@@ -100,6 +100,7 @@ if [ -x "$(command -v git)" ]; then
   alias gm="git merge"
   alias gps="git push"
   alias gpl="git pull"
+  alias git-gc-all="git -c gc.reflogExpire=0 -c gc.reflogExpireUnreachable=0 -c gc.rerereresolved=0 -c gc.rerereunresolved=0 -c gc.pruneExpire=now gc"
 else
   echo "git executable not found."
 fi
