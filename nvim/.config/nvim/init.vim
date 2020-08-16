@@ -1,38 +1,98 @@
-filetype off
+" Components {
+    call plug#begin('~/.config/nvim/plugged')
+    " UI
+    Plug 'romainl/flattened'
 
-call plug#begin('~/.config/nvim/plugged')
+    " Git
+    Plug 'tpope/vim-fugitive'
+    Plug 'airblade/vim-gitgutter'
+
+    " Languages
+
     Plug 'tpope/vim-commentary'             " comment stuff out
-    Plug 'tpope/vim-fugitive'               " git wrapper
     Plug 'tpope/vim-endwise'                " end structures
+    Plug 'tpope/vim-sleuth'
     Plug 'alvan/vim-closetag'               " (X)HTML close tags
-    Plug 'vim-airline/vim-airline'          " status/tabline
-    Plug 'vim-airline/vim-airline-themes'   " themes
     Plug 'w0rp/ale'                         " async lint
-    Plug 'fatih/vim-go'                     " go development
     Plug 'sheerun/vim-polyglot'             " Language Pack
-    Plug 'airblade/vim-gitgutter'           " Git diff
-    Plug 'Valloric/YouCompleteMe'           " auto-complete
     Plug 'jiangmiao/auto-pairs'
-    Plug 'ctrlpvim/ctrlp.vim'               " fuzzy finder
-    Plug 'diepm/vim-rest-console'
-    Plug 'zeek/vim-zeek'
-call plug#end()
+    Plug 'junegunn/fzf.vim'                 " fuzzy finder
 
-filetype plugin indent on
-syntax enable
+    call plug#end()
+" }
 
-" colorscheme
-set t_Co=256
-colorscheme Tomorrow-Night
+" General {
+    set mouse=                          " Disable mouse
+    set backspace=indent,eol,start
+    set noswapfile                      " Use vcs
+    set grepprg=ack
+    set autoread
+    let mapleader="\<space>"
 
-" general settings
-set mouse=                          " Disable mouse
-set backspace=indent,eol,start
-set nobackup                        " Use vcs
-set noswapfile                      " Use vcs
-set grepprg=ack
-set autoread
-let mapleader="\<space>"
+    set undofile                " So is persistent undo ...
+    set undolevels=1000         " Maximum number of changes that can be undone
+    set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
+
+    " Disable providers we do not give a shit about
+    let g:loaded_python3_provider = 0
+    let g:loaded_python_provider = 0
+    let g:loaded_ruby_provider = 0
+    let g:loaded_perl_provider = 0
+    let g:loaded_node_provider = 0
+
+    " Disable some in built plugins completely
+    let g:loaded_netrw            = 1
+    let g:loaded_netrwPlugin      = 1
+    let g:loaded_matchparen       = 1
+    let g:loaded_matchit          = 1
+    let g:loaded_2html_plugin     = 1
+    let g:loaded_getscriptPlugin  = 1
+    let g:loaded_gzip             = 1
+    let g:loaded_logipat          = 1
+    let g:loaded_rrhelper         = 1
+    let g:loaded_spellfile_plugin = 1
+    let g:loaded_tarPlugin        = 1
+    let g:loaded_vimballPlugin    = 1
+    let g:loaded_zipPlugin        = 1
+" }
+
+" UI {
+    colorscheme flattened_dark
+    set termguicolors
+
+    function ToggleColors()
+        if (g:colors_name == "flattened_dark")
+            colorscheme flattened_light
+        else
+            colorscheme flattened_dark
+        endif
+    endfunction
+
+    " shortcut to toggle 
+    nnoremap <C-b> :call ToggleColors()<CR>
+
+    " Broken down into easily includeable segments
+    set laststatus=2
+    set statusline=
+    set statusline+=%<%f\                              " Filename
+    set statusline+=%w%h%m%r%q                         " Options
+    set statusline+=%{fugitive#statusline()}           " Git Hotness
+    set statusline+=[%{strlen(&fenc)?&fenc:&enc}/%Y] " Filetype
+    set statusline+=[%{SleuthIndicator()}]
+    set statusline+=%*
+    set statusline+=%=%-14.(%l,%c%V%) "\ %p%%" Right aligned file nav info
+
+    set showcmd
+    set showmatch
+    set hlsearch
+    set incsearch
+    set ignorecase
+    set smartcase
+    set wildignore+=.hg,.git,.svn
+    set wildignore+=*.pyc
+
+" }
+
 
 "save current buffer
 nnoremap <leader>w :w<cr>
@@ -54,19 +114,11 @@ set expandtab
 set autoindent
 
 " search/replace
-set ignorecase
-set smartcase
-set incsearch
-set hlsearch
 set gdefault
 
 " highlight whitespace
 highlight TrailSpace ctermbg=darkred
 match TrailSpace / \+$/
-
-" easier goto beginning/end of line
-nnoremap <leader>a ^
-nnoremap <leader>e $
 
 " clear highlighting and redraw
 nnoremap <silent> <leader>l :nohl<CR><C-l>
@@ -77,36 +129,27 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
-" wildmenu
-set wildmenu
-set wildignore+=.hg,.git,.svn
-set wildignore+=*.pyc
+" Plugins {
+    " fugitive
+    nnoremap <leader>gs :Gstatus<CR>
+    nnoremap <leader>gd :Gdiff<CR>
+    nnoremap <leader>gc :Gcommit<CR>
+    nnoremap <leader>gb :Gblame<CR>
+    nnoremap <leader>gl :Glog<CR>
+    nnoremap <leader>gp :Git push<CR>
+    nnoremap <leader>gr :Gread<CR>
+    nnoremap <leader>gw :Gwrite<CR>
+    nnoremap <leader>ge :Gedit<CR>
 
-" fugitive
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gd :Gdiff<CR>
-nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gb :Gblame<CR>
-nnoremap <leader>gl :Glog<CR>
-nnoremap <leader>gp :Git push<CR>
-nnoremap <leader>gr :Gread<CR>
-nnoremap <leader>gw :Gwrite<CR>
-nnoremap <leader>ge :Gedit<CR>
+    " fzf
+    nnoremap <leader>f :Files<CR>
+    nnoremap <leader>b :Buffer<CR>
+    nnoremap <leader>t :BTags<CR>
+    nnoremap <leader>T :Tag<CR>
+    let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 
-" ctrlp
-nnoremap <leader>f :CtrlP<CR>
-nnoremap <leader>b :CtrlPBuffer<CR>
-nnoremap <leader>t :CtrlPBufTag<CR>
-nnoremap <leader>T :CtrlPTag<CR>
-let g:ctrlp_show_hidden=1
-let g:ctrlp_extensions=['tag', 'buffertag']
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+    " auto-pairs
+    let g:AutoPairsCenterLine=0
+    let g:AutoPairsMultilineClose=0
 
-" airline
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-set laststatus=2
-
-" auto-pairs
-let g:AutoPairsCenterLine=0
-let g:AutoPairsMultilineClose=0
+" }
