@@ -5,12 +5,16 @@ case $- in
       *) return;;
   esac
 
+# Sourcing {
 [ -r $HOME/.profile ] && . $HOME/.profile
 [ -r $HOME/.bashsec ] && . $HOME/.bashsec
-[ -r $HOME/.fzf.bash ] && source $HOME/.fzf.bash
-[ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
-[ -r /etc/bash.bashrc ] && source /etc/bash.bashrc
-[ -r /etc/bashrc ] && source /etc/bashrc
+[ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
+[ -r /usr/share/fzf/shell/key-bindings.bash ] && . /usr/share/fzf/shell/key-bindings.bash
+
+# security-tools: https://github.com/precurse/security-tools
+[ -r $HOME/tools/source.sh ] && source $HOME/tools/source.sh
+
+# }
 
 function openstack_user {
   if [ -n "$OS_USERNAME" ]; then
