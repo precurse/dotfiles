@@ -45,7 +45,7 @@ stow shell
 if [ "$#" -eq 1 ]; then
     # Testing
     export TRAVIS_FORCE=true
-    . ../.profile
+    . ../.bashrc
     genpass
     ll
     mcd tmp1
