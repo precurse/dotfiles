@@ -128,9 +128,13 @@
 
     "save current buffer
     nnoremap <leader>w :w<cr>
+    nnoremap <leader>q :wq<cr>
 
     "replace the word under cursor
     nnoremap <leader>* :%s/\<<c-r><c-w>\>//g<left><left>
+
+    " Most prefer to toggle search highlighting rather than clear the current search results.
+    nmap <silent> <Leader>/ :set invhlsearch<CR>
 
     "move lines around
     nnoremap <leader>k :m-2<cr>==
