@@ -39,10 +39,8 @@ stow git
 stow shell
 #stow emacs
 #stow nvim
-#stow i3
 #stow ssh
 #stow tmux
-#stow x11
 
 if [ "$#" -eq 1 ]; then
     # Testing
