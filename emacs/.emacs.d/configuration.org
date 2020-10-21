@@ -1,38 +1,106 @@
+* Misc Configuration
+    #+BEGIN_SRC emacs-lisp
+
+    (when window-system
+    (blink-cursor-mode 0)                           ; Disable the cursor blinking
+    (scroll-bar-mode 0)                             ; Disable the scroll bar
+    (tool-bar-mode 0)                               ; Disable the tool bar
+    (tooltip-mode 0))                               ; Disable the tooltips
+
+    ; Full Screen
+    (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+    #+END_SRC
+
 * Configure =use-package=
     #+BEGIN_SRC emacs-lisp
     (require 'use-package-ensure)
     (setq use-package-always-ensure t)
 
     #+END_SRC
+* Load =custom.el=
+    #+BEGIN_SRC emacs-lisp
+    (setq-default custom-file (expand-file-name "custom.el" user-emacs-directory))
+    (when (file-exists-p custom-file)
+    (load custom-file))
+    #+END_SRC
 
 * Use evil
     #+BEGIN_SRC emacs-lisp
-    (use-package evil
-    :config
-    (evil-mode 1))
+    (require 'evil)
+    (evil-mode 1)
 
+;    (use-package general
+;    :config
+;    (general-evil-setup)
+;    (general-create-definer leader
+;	:states '(normal visual)
+;	:prefix "SPC"))
+;	
+;    (use-package evil
+;    :config (evil-mode)
+;    :general
+;    (leader
+;    "SPC" 'execute-extended-command
+;
+;    "f" 'find-file
+;    "b" 'switch-to-buffer
+;    "k" 'kill-buffer-and-window
+;    "e" 'eval-buffer
+;    "g" 'grep-find
+;    "i" 'counsel-imenu
+;    "o" 'other-window
+;    "1" 'delete-other-windows
+;    "2" 'split-window-below
+;    "3" 'split-window-right
+;    "0" 'delete-window)
+;    (general-nmap
+;    "]q" 'next-error
+;    "[q" 'previous-error))
+;
+;    (use-package evil-surround
+;    :config
+;    (global-evil-surround-mode 1))
+;
+;    (use-package evil-org
+;    :after org
+;    :config
+;    (add-hook 'org-mode-hook 'evil-org-mode)
+;    (add-hook 'evil-org-mode-hook
+;	(global-evil-surround-mode 1))
+;    )
 
-    (use-package evil-surround
-    :config
-    (global-evil-surround-mode 1))
-
-    (use-package evil-org
-    :after org
-    :config
-    (add-hook 'org-mode-hook 'evil-org-mode)
-    (add-hook 'evil-org-mode-hook
-	(global-evil-surround-mode 1))
-    )
-
-    #+END_SRC  
+    #+END_SRC
 
 * Themes
     #+BEGIN_SRC emacs-lisp
 	;; Themes
 	(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 	(add-to-list 'load-path "~/.emacs.d/themes")
-	(load-theme 'tomorrow-night t)
-    #+END_SRC
+	(use-package nord-theme
+	:init (setq nord0 "#2E3440"
+		    nord1 "#3B4252"
+		    nord2 "#434C5E"
+		    nord3 "#4C566A"
+		    nord4 "#D8DEE9"
+		    nord5 "#E5E9F0"
+		    nord6 "#ECEFF4"
+		    nord7 "#8FBCBB"
+		    nord8 "#88C0D0"
+		    nord9 "#81A1C1"
+		    nord10 "#5E81AC"
+		    nord11 "#BF616A"
+		    nord12 "#D08770"
+		    nord13 "#EBCB8B"
+		    nord14 "#A3BE8C"
+		    nord15 "#B48EAD")
+	:config
+	(if (daemonp)
+	    (add-hook 'after-make-frame-functions
+			(lambda (frame)
+			(select-frame frame)
+			(load-theme 'nord t)))
+	    (load-theme 'nord t)))
 
 * Markdown
     #+BEGIN_SRC emacs-lisp
@@ -43,28 +111,29 @@
     (setq markdown-css-paths `(,(expand-file-name "Documents/markdown.css")))
 
     #+END_SRC
+
+    
+* Languages
+  * Dockerfile
+    #+BEGIN_SRC emacs-lisp
+    (use-package dockerfile-mode)
+    #+END_SRC
+  * Markdown
+    #+BEGIN_SRC emacs-lisp
+    (use-package markdown-mode)
+    #+END_SRC
+  * YAML
+    #+BEGIN_SRC emacs-lisp
+    (use-package yaml-mode)
+    #+END_SRC
+
 * Magit
 #+BEGIN_SRC emacs-lisp
 (use-package magit
-
+  :general (leader "m" 'magit-file-dispatch)
+  
   :config
   (use-package evil-magit)
   (use-package with-editor)
 )
 #+END_SRC
-* All else
-    #+BEGIN_SRC emacs-lisp
-    (custom-set-variables
-    ;; custom-set-variables was added by Custom.
-    ;; If you edit it by hand, you could mess it up, so be careful.
-    ;; Your init file should contain only one such instance.
-    ;; If there is more than one, they won't work right.
-    '(package-selected-packages (quote (markdown-mode+ markdown-mode evil-org evil ##))))
-    (custom-set-faces
-    ;; custom-set-faces was added by Custom.
-    ;; If you edit it by hand, you could mess it up, so be careful.
-    ;; Your init file should contain only one such instance.
-    ;; If there is more than one, they won't work right.
-    )
-
-    #+END_SRC
