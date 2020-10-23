@@ -9,12 +9,18 @@
   (package-initialize)
 
   ;; Install dependencies
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package t))
-  (setq-default
-   use-package-always-defer t
-   use-package-always-ensure t)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+
+  ;; (unless (package-installed-p 'use-package)
+  ;;   (package-refresh-contents)
+  ;;   (package-install 'use-package t))
+  ;; (setq-default
+  ;;  use-package-always-defer t
+  ;;  use-package-always-ensure t)
 
   ;; Load org
   (org-babel-load-file (expand-file-name "configuration.org" user-emacs-directory))

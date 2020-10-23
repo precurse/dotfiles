@@ -6,69 +6,66 @@
     (scroll-bar-mode 0)                             ; Disable the scroll bar
     (tool-bar-mode 0)                               ; Disable the tool bar
     (tooltip-mode 0))                               ; Disable the tooltips
-
+    (electric-pair-mode)
+    (show-paren-mode)
     ; Full Screen
     (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+    (setq org-directory "~/org")
     #+END_SRC
 
-* Configure =use-package=
-    #+BEGIN_SRC emacs-lisp
-    (require 'use-package-ensure)
-    (setq use-package-always-ensure t)
-
-    #+END_SRC
 * Load =custom.el=
     #+BEGIN_SRC emacs-lisp
     (setq-default custom-file (expand-file-name "custom.el" user-emacs-directory))
     (when (file-exists-p custom-file)
     (load custom-file))
     #+END_SRC
+* General
+    #+BEGIN_SRC emacs-lisp
+    (use-package general
+       :ensure t
+    :config
+    (general-evil-setup)
+    (general-create-definer leader
+    :states '(normal visual)
+    :prefix "SPC")
+    )
+    #+END_SRC
 
 * Use evil
     #+BEGIN_SRC emacs-lisp
-    (require 'evil)
-    (evil-mode 1)
+    (use-package evil
+    :init (setq evil-want-Y-yank-to-eol t)
+    :hook ((evil-visual-state-entry . (lambda() (hl-line-mode -1)))
+	    (evil-visual-state-exit  . (lambda() (hl-line-mode +1))))
+    :config (evil-mode)
+    :general
+    (leader
+	"SPC" 'execute-extended-command
+	"f" 'find-file
+	"b" 'switch-to-buffer
+	"k" 'kill-buffer-and-window
+	"e" 'eval-buffer
+	"g" 'grep-find
+	"i" 'counsel-imenu
+	"o" 'other-window
+	"1" 'delete-other-windows
+	"2" (lambda () (interactive) (split-window-below) (other-window 1))
+	"3" (lambda () (interactive) (split-window-right) (other-window 1))
+	"0" 'delete-window)
+    (general-nmap
+	"]q" 'next-error
+	"[q" 'previous-error))
 
-;    (use-package general
-;    :config
-;    (general-evil-setup)
-;    (general-create-definer leader
-;	:states '(normal visual)
-;	:prefix "SPC"))
-;	
-;    (use-package evil
-;    :config (evil-mode)
-;    :general
-;    (leader
-;    "SPC" 'execute-extended-command
-;
-;    "f" 'find-file
-;    "b" 'switch-to-buffer
-;    "k" 'kill-buffer-and-window
-;    "e" 'eval-buffer
-;    "g" 'grep-find
-;    "i" 'counsel-imenu
-;    "o" 'other-window
-;    "1" 'delete-other-windows
-;    "2" 'split-window-below
-;    "3" 'split-window-right
-;    "0" 'delete-window)
-;    (general-nmap
-;    "]q" 'next-error
-;    "[q" 'previous-error))
-;
-;    (use-package evil-surround
-;    :config
-;    (global-evil-surround-mode 1))
-;
-;    (use-package evil-org
-;    :after org
-;    :config
-;    (add-hook 'org-mode-hook 'evil-org-mode)
-;    (add-hook 'evil-org-mode-hook
-;	(global-evil-surround-mode 1))
-;    )
+    (use-package evil-surround
+    :config (global-evil-surround-mode))
+    (use-package evil-commentary
+    :delight
+    :config (evil-commentary-mode))
+    (use-package evil-lion
+    :config (evil-lion-mode))
+    (use-package undo-tree
+    :delight)
 
     #+END_SRC
 
@@ -112,7 +109,6 @@
 
     #+END_SRC
 
-    
 * Languages
   * Dockerfile
     #+BEGIN_SRC emacs-lisp
@@ -122,18 +118,21 @@
     #+BEGIN_SRC emacs-lisp
     (use-package markdown-mode)
     #+END_SRC
+  * Org
   * YAML
     #+BEGIN_SRC emacs-lisp
     (use-package yaml-mode)
     #+END_SRC
 
+* Whichkey
+  #+BEGIN_SRC emacs-lisp
+  (use-package which-key
+  :delight
+  :config (which-key-mode))
+  #+END_SRC
 * Magit
 #+BEGIN_SRC emacs-lisp
-(use-package magit
-  :general (leader "m" 'magit-file-dispatch)
-  
-  :config
-  (use-package evil-magit)
-  (use-package with-editor)
-)
+ (use-package magit
+   :ensure t
+  :general (leader "m" 'magit-file-dispatch))
 #+END_SRC
