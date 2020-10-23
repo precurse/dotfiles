@@ -82,6 +82,19 @@
 
     #+END_SRC
 
+* Spelling (flyspell)
+    #+BEGIN_SRC emacs-lisp
+    (use-package flyspell
+    :delight
+    :hook ((text-mode . flyspell-mode)
+	    (org-mode  . flyspell-mode)
+	    (prog-mode . flyspell-prog-mode))
+    :config
+    (custom-set-faces `(flyspell-incorrect ((t (:weight bold :underline (:color ,nord11 :style wave))))))
+    (setq ispell-program-name "aspell"
+	    ispell-extra-args '("--sug-mode=ultra")
+	    flyspell-prog-text-faces (delq 'font-lock-string-face flyspell-prog-text-faces)))
+    #+END_SRC
 * Themes
     #+BEGIN_SRC emacs-lisp
     (use-package alect-themes
@@ -105,7 +118,19 @@
     )
     (use-package markdown-mode+)
     #+END_SRC
+  * LaTeX
+    #+BEGIN_SRC emacs-lisp
+    (use-package latex-preview-pane)
+    #+END_SRC
   * Org
+    #+BEGIN_SRC emacs-lisp
+    #+END_SRC
+  * Terraform
+    #+BEGIN_SRC emacs-lisp
+    (use-package terraform-mode
+    :general (:keymaps 'terraform-mode-map
+	"C-c f" 'terraform-format-buffer))
+    #+END_SRC
   * YAML
     #+BEGIN_SRC emacs-lisp
     (use-package yaml-mode)
