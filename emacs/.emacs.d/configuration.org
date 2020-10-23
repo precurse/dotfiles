@@ -13,6 +13,16 @@
 
     (setq org-directory "~/org")
     #+END_SRC
+* Mac OS
+    #+BEGIN_SRC emacs-lisp
+    (when (eq system-type 'darwin)
+	;; use all the special keys on the mac keyboard
+	(setq mac-option-modifier nil
+		ns-function-modifier 'super
+		mac-right-command-modifier 'hyper
+		mac-right-option-modifier 'alt
+		mac-command-modifier 'meta))
+    #+END_SRC
 
 * Load =custom.el=
     #+BEGIN_SRC emacs-lisp
@@ -31,7 +41,10 @@
     :prefix "SPC")
     )
     #+END_SRC
-
+* Delight
+    #+BEGIN_SRC emacs-lisp
+    (use-package delight)
+    #+END_SRC
 * Use evil
     #+BEGIN_SRC emacs-lisp
     (use-package evil
@@ -71,42 +84,11 @@
 
 * Themes
     #+BEGIN_SRC emacs-lisp
-	;; Themes
-	(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-	(add-to-list 'load-path "~/.emacs.d/themes")
-	(use-package nord-theme
-	:init (setq nord0 "#2E3440"
-		    nord1 "#3B4252"
-		    nord2 "#434C5E"
-		    nord3 "#4C566A"
-		    nord4 "#D8DEE9"
-		    nord5 "#E5E9F0"
-		    nord6 "#ECEFF4"
-		    nord7 "#8FBCBB"
-		    nord8 "#88C0D0"
-		    nord9 "#81A1C1"
-		    nord10 "#5E81AC"
-		    nord11 "#BF616A"
-		    nord12 "#D08770"
-		    nord13 "#EBCB8B"
-		    nord14 "#A3BE8C"
-		    nord15 "#B48EAD")
-	:config
-	(if (daemonp)
-	    (add-hook 'after-make-frame-functions
-			(lambda (frame)
-			(select-frame frame)
-			(load-theme 'nord t)))
-	    (load-theme 'nord t)))
-
-* Markdown
-    #+BEGIN_SRC emacs-lisp
-    (require 'markdown-mode)
-    (require 'markdown-mode+)
-    (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
-    (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-    (setq markdown-css-paths `(,(expand-file-name "Documents/markdown.css")))
-
+    (use-package alect-themes
+    :demand t
+    :config
+    (load-theme 'alect-dark t)
+    )
     #+END_SRC
 
 * Languages
@@ -116,7 +98,12 @@
     #+END_SRC
   * Markdown
     #+BEGIN_SRC emacs-lisp
-    (use-package markdown-mode)
+    (use-package markdown-mode
+    :custom
+    (markdown-asymmetric-header t)
+    (markdown-split-window-direction 'right)
+    )
+    (use-package markdown-mode+)
     #+END_SRC
   * Org
   * YAML
@@ -125,14 +112,15 @@
     #+END_SRC
 
 * Whichkey
-  #+BEGIN_SRC emacs-lisp
-  (use-package which-key
-  :delight
-  :config (which-key-mode))
+    #+BEGIN_SRC emacs-lisp
+    (use-package which-key
+    :delight
+    :config (which-key-mode))
   #+END_SRC
 * Magit
-#+BEGIN_SRC emacs-lisp
- (use-package magit
-   :ensure t
-  :general (leader "m" 'magit-file-dispatch))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+    (use-package magit
+    :ensure t
+    :general (leader "m" 'magit-file-dispatch))
+    #+END_SRC
+    
