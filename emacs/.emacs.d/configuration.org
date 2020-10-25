@@ -19,8 +19,6 @@
 	;; use all the special keys on the mac keyboard
 	(setq mac-option-modifier nil
 		ns-function-modifier 'super
-		mac-right-command-modifier 'hyper
-		mac-right-option-modifier 'alt
 		mac-command-modifier 'meta))
     #+END_SRC
 
@@ -91,7 +89,7 @@
 	    (org-mode  . flyspell-mode)
 	    (prog-mode . flyspell-prog-mode))
     :config
-    (custom-set-faces `(flyspell-incorrect ((t (:weight bold :underline (:color ,nord11 :style wave))))))
+    (custom-set-faces `(flyspell-incorrect ((t (:weight bold :underline (:color ,"#BF616A" :style wave))))))
     (setq ispell-program-name "aspell"
 	    ispell-extra-args '("--sug-mode=ultra")
 	    flyspell-prog-text-faces (delq 'font-lock-string-face flyspell-prog-text-faces)))
@@ -107,7 +105,7 @@
     (defun toggle-theme ()
     (interactive)
     (if (eq (car custom-enabled-themes) 'alect-dark)
-	(disable-theme 'alect-dark)
+	(load-theme 'alect-light)
 	(load-theme 'alect-dark)))
 
     #+END_SRC
@@ -132,6 +130,7 @@
     #+END_SRC
   * Org
     #+BEGIN_SRC emacs-lisp
+    (setq org-mobile-directory "~/org/mobile")
     #+END_SRC
   * Terraform
     #+BEGIN_SRC emacs-lisp
