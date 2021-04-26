@@ -15,6 +15,7 @@
 
     " Languages
     Plug 'plasticboy/vim-markdown',         { 'for': 'markdown' }
+    Plug 'ekalinin/Dockerfile.vim',         { 'for': 'dockerfile' }
     Plug 'vim-latex/vim-latex',             { 'for': 'tex' }
 
     Plug 'tpope/vim-commentary'             " comment stuff out
@@ -66,7 +67,7 @@
 
 " UI {
     " default dark mode
-    colorscheme flattened_dark
+    colorscheme flattened_light
     set termguicolors
 
     function ToggleColors()
@@ -156,6 +157,7 @@ set gdefault
 " highlight whitespace
 highlight TrailSpace ctermbg=darkred
 match TrailSpace / \+$/
+
 
 " clear highlighting and redraw
 nnoremap <silent> <leader>l :nohl<CR><C-l>
