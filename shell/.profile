@@ -101,13 +101,51 @@ if [ -x "$(command -v git)" ]; then
   alias gps="git push"
   alias gpl="git pull"
   alias git-gc-all="git -c gc.reflogExpire=0 -c gc.reflogExpireUnreachable=0 -c gc.rerereresolved=0 -c gc.rerereunresolved=0 -c gc.pruneExpire=now gc"
+
+  alias gcob="git branch | fzf | xargs git checkout"
 else
   echo "git executable not found."
 fi
 
+# Fuzzy Finding
+# if [ -x "$(command -v rg)" ]; then
+#   export FZF_DEFAULT_COMMAND='rg --files --hidden --ignore'
+#   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# fi
+
 #######
 ## FUNCTIONS
 #######
+
+# Bookmarks
+# From : (c) 2021 https://gist.github.com/pcdv/3c52d82f59fe9042793033d5e249b146
+function g() {
+  local DIR=_
+  local CFG="$HOME/.cdirs"
+  local HELP=\
+"Bookmark your favorite directories
+----------------------------------
+g           # list bookmarks
+g .         # add current dir to bookmarks
+g -e        # edit bookmarks
+g <regex>   # jump to first matching bookmark
+g <number>  # jump to n-th bookmark"
+
+  [[ $# = 0 && ! -f "$CFG" ]] && set help
+  [[ $# = 0 &&   -f "$CFG" ]] && nl "$CFG"
+
+  case ${1} in
+    -e)       ${EDITOR:-vi} "$CFG"              ;;
+    -*|help)  echo "$HELP"                      ;;
+    .)        pwd >> "$CFG"                     ;;
+    [0-9]*)   DIR=$(sed -ne "${1}p" "$CFG")     ;;
+    *)        DIR=$(grep "$1" "$CFG" | head -1) ;;
+  esac
+
+  if [[ "$DIR" != _ ]]; then
+    [[ -d "$DIR" ]] && cd "$DIR" || echo "Not found"
+  fi
+}
 
 # Up, up, and away
 up() {
@@ -121,10 +159,10 @@ up() {
 }
 
 # list dir contents after cd
-cd() { builtin cd "$@" && ls -l; }
+cd() { builtin cd "$*" && ls -l; }
 
 # Create dir and go into it
-mcd() { mkdir -p "$1"; cd "$1" || exit;}
+mcd() { mkdir -p "$*"; cd "$*" || exit;}
 
 # remove line n from a file (removeline N FILE)
 rmline() { sed -i "$1d" "$2"; }
