@@ -8,10 +8,15 @@
     (tooltip-mode 0))                               ; Disable the tooltips
     (electric-pair-mode)
     (show-paren-mode)
+    (column-number-mode)
+    (recentf-mode)
+
     ; Full Screen
     (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
     (setq org-directory "~/org")
+    (setq org-hide-leading-stars t)
+    (setq inhibit-startup-screen t)
     #+END_SRC
 * Mac OS
     #+BEGIN_SRC emacs-lisp
@@ -80,7 +85,17 @@
     :delight)
 
     #+END_SRC
-
+* Highlight Uncommitted Changes
+  #+begin_src emacs-lisp
+  (use-package diff-hl
+  :config
+  (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+  (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
+  #+end_src
+* Syntax Checking
+  #+begin_src emacs-lisp
+  (use-package flycheck)
+  #+end_src
 * Spelling (flyspell)
     #+BEGIN_SRC emacs-lisp
     (use-package flyspell
@@ -131,6 +146,16 @@
   * Org
     #+BEGIN_SRC emacs-lisp
     (setq org-mobile-directory "~/org/mobile")
+    (use-package org-bullets)
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+    (require 'org-tempo)
+    (require 'ox-latex)
+    (unless (boundp 'org-latex-classes)
+      (setq org-latex-classes nil))
+    (add-to-list 'org-latex-classes
+                 '("article"
+                   "\\documentclass{article}"
+                   ("\\section{%s}" . "\\section*{%s}")))
     #+END_SRC
   * Terraform
     #+BEGIN_SRC emacs-lisp
@@ -142,7 +167,14 @@
     #+BEGIN_SRC emacs-lisp
     (use-package yaml-mode)
     #+END_SRC
-
+  #+BEGIN
+* REST Client
+  #+begin_src emacs-lisp
+  (use-package restclient)
+  (use-package company-restclient
+  :config
+  (add-to-list 'company-backends 'company-restclient))
+  #+end_src>
 * Whichkey
     #+BEGIN_SRC emacs-lisp
     (use-package which-key
