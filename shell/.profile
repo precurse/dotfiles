@@ -85,6 +85,11 @@ if [ -x "$(command -v xclip)" ]; then
   alias pbpaste="xclip -selection clipboard -o"
 fi
 
+# Virtual Manager
+if [ -x "$(command -v virt-manager)" ]; then
+    export LIBVIRT_DEFAULT_URI="qemu:///system"
+fi
+
 # Git aliases
 #
 if [ -x "$(command -v git)" ]; then
