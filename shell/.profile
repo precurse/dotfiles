@@ -65,6 +65,7 @@ alias free="free -ht"   # human readable + total
 alias mkdir="mkdir -pv" # always make it
 alias wget="wget -c"    # continue download
 alias docker="sudo docker"
+alias td="tr -d '\n'"
 
 # Use neovim then vim (if available)
 if [ -x "$(command -v nvim)" ]; then
