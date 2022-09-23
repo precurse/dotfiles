@@ -4,6 +4,9 @@
 
 # Based on: https://blog.scottnonnenberg.com/better-git-configuration/
 [alias]
+    co = checkout
+    ci = commit
+    pp = !git pull && git push
     prune = fetch --prune
     undo = reset --soft HEAD^
     stash-all = stash save --include-untracked
@@ -33,3 +36,5 @@
     autostash = true
 [log]
     decorate = full
+[init]
+	defaultBranch = master
