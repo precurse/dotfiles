@@ -50,6 +50,7 @@
     #+END_SRC
 * Use evil
     #+BEGIN_SRC emacs-lisp
+    (setq evil-want-C-i-jump nil)
     (use-package evil
     :init (setq evil-want-Y-yank-to-eol t)
     :hook ((evil-visual-state-entry . (lambda() (hl-line-mode -1)))
