@@ -62,7 +62,7 @@ alias rm="rm -i"        # prompt before overwrite
 alias df="df -h"        # human readable
 alias du="du -h"        # human readable
 alias free="free -ht"   # human readable + total
-alias mkdir="mkdir -pv" # always make it
+alias mkdir="mkdir -pv" # always make it and be verbose
 alias wget="wget -c"    # continue download
 alias docker="sudo docker"
 alias td="tr -d '\n'"
@@ -81,6 +81,11 @@ if [ -x "$(command -v nvim)" ]; then
   export EDITOR="$VISUAL"
 elif [ -x "$(command -v vim)" ]; then
   alias vi="vim"
+fi
+
+# Semgrep stuff
+if [ -x "$(command -v semgrep)" ]; then
+  export SEMGREP_SEND_METRICS=off
 fi
 
 # Xclip pasting
@@ -167,11 +172,8 @@ up() {
   cd $ups || exit
 }
 
-# list dir contents after cd
-cd() { builtin cd "$*" && ls -l; }
-
-# Create dir and go into it
-mcd() { mkdir -p "$*"; cd "$*" || exit;}
+cd() { builtin cd "$@";ls -l;}            # ls after chdir
+mcd() { mkdir -p "$*"; cd "$*" || exit;}  # Create dir and go into it
 
 # remove line n from a file (removeline N FILE)
 rmline() { sed -i "$1d" "$2"; }
@@ -183,6 +185,7 @@ os_clean() { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_
 # Password generation
 genpass() { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-32}";echo; }
 
+# JWT functions
 jwtdecode() {
   printf "%s" "$@" | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Header: ",jwt.get_unverified_header(e));print("Body: ",jwt.decode(e, options={"verify_signature": False}))'
 }
