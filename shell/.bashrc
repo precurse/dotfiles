@@ -1,3 +1,4 @@
+#!/bin/bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # If not running interactively, don't do anything
 case $- in
@@ -6,13 +7,14 @@ case $- in
   esac
 
 # Sourcing {
-[ -r $HOME/.profile ] && . $HOME/.profile
-[ -r $HOME/.bashsec ] && . $HOME/.bashsec
+[ -r "$HOME/.profile" ] && . "$HOME/.profile"
+[ -r "$HOME/.bashsec" ] && . "$HOME/.bashsec"
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 [ -r /usr/share/fzf/shell/key-bindings.bash ] && . /usr/share/fzf/shell/key-bindings.bash
+[ -r /usr/share/doc/fzf/examples/key-bindings.bash ] && . /usr/share/doc/fzf/examples/key-bindings.bash
 
 # security-tools: https://github.com/precurse/security-tools
-[ -r $HOME/tools/source.sh ] && source $HOME/tools/source.sh
+[ -r "$HOME/tools/source.sh" ] && source "$HOME/tools/source.sh"
 
 # }
 
