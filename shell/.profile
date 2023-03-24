@@ -56,14 +56,15 @@ export VISUAL EDITOR PATH
 
 alias ..="cd .."
 alias ll="ls -lAh | less"
-alias cp="cp -i"        # prompt before overwrite
-alias mv="mv -i"     # prompt before overwrite
-alias rm="rm -i"        # prompt before overwrite
-alias df="df -h"        # human readable
-alias du="du -h"        # human readable
-alias free="free -ht"   # human readable + total
-alias mkdir="mkdir -pv" # always make it and be verbose
-alias wget="wget -c"    # continue download
+alias cp="cp -i"                # prompt before overwrite
+alias mv="mv -i"                # prompt before overwrite
+alias rm="rm -i"                # prompt before overwrite
+alias dd="dd status=progress"   # Show progress by default
+alias df="df -h"                # human readable
+alias du="du -h"                # human readable
+alias free="free -ht"           # human readable + total
+alias mkdir="mkdir -pv"         # always make it and be verbose
+alias wget="wget -c"            # continue download
 alias docker="podman"
 alias td="tr -d '\n'"
 alias bd="base64 -d <<<"  # Quick base64 decoding
@@ -173,7 +174,7 @@ up() {
   cd $ups || exit
 }
 
-cd() { builtin cd "$@";ls -l;}            # ls after chdir
+cd() { builtin cd "$@" && ls -l;}            # ls after chdir
 mcd() { mkdir -p "$*"; cd "$*" || exit;}  # Create dir and go into it
 
 # remove line n from a file (removeline N FILE)
