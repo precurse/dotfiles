@@ -35,20 +35,31 @@ if [ -f "/etc/profile" ]; then
     . /etc/profile
 fi
 
+######################
+# ENV
+######################
+
+add_to_path() {
+  case ":$PATH:" in
+    *":$1:"*) ;; 
+    *) PATH="$PATH:$1" ;;
+  esac
+}
+
 # Environment Variables
 # You should also set $VISUAL, as some programs (correctly) use that instead of $EDITOR (see VISUAL vs. EDITOR)
-VISUAL="vim"
-EDITOR="$VISUAL"
+export VISUAL="vim"
+export EDITOR="$VISUAL"
 
-PATH="$PATH:/usr/local/sbin"
-PATH="$PATH:/usr/local/bin"
-PATH="$PATH:/opt/local/sbin"
-PATH="$PATH:/opt/local/bin"
-PATH="$PATH:$HOME/node_modules/.bin"
-PATH="$PATH:$HOME/bin"
-PATH="$PATH:$HOME/.local/bin"
+add_to_path /usr/local/sbin
+add_to_path /usr/local/bin
+add_to_path /opt/local/sbin
+add_to_path /opt/local/bin
+add_to_path $HOME/node_modules/.bin
+add_to_path $HOME/bin
+add_to_path $HOME/.local/bin
 
-export VISUAL EDITOR PATH
+export PATH
 
 ######
 ## ALIASES
@@ -72,8 +83,18 @@ alias bd="base64 -d <<<"  # Quick base64 decoding
 alias vpnon="nmcli connection up wg0"
 alias vpnoff="nmcli connection down wg0"
 
+alias jekyll="podman run --rm -v "$PWD":/srv/jekyll:Z -w $PWD -it jekyll/jekyll jekyll"
+
+# Python stuff
+alias ipython='python3 -m IPython'
+
+
+######################
+# TOOL DETECTION
+######################
+
 # Use neovim then vim (if available)
-if [ -x "$(command -v nvim)" ]; then
+if command -v nvim >/dev/null 2>&1; then
   alias vi="nvim"
   alias vim="nvim"
   alias vimdiff="nvim -d"
@@ -81,28 +102,27 @@ if [ -x "$(command -v nvim)" ]; then
   # Export as well
   export VISUAL="nvim"
   export EDITOR="$VISUAL"
-elif [ -x "$(command -v vim)" ]; then
+elif command -v vim >/dev/null 2>&1; then
   alias vi="vim"
 fi
 
 # Semgrep stuff
-if [ -x "$(command -v semgrep)" ]; then
-  export SEMGREP_SEND_METRICS=off
-fi
+command -v semgrep >/dev/null 2>&1 && export SEMGREP_SEND_METRICS=off
 
 # Xclip pasting
-if [ -x "$(command -v xclip)" ]; then
-  alias pbcopy="xclip -selection clipboard -i"
-  alias pbpaste="xclip -selection clipboard -o"
+if command -v xclip >/dev/null 2>&1; then
+  alias pbcopy='xclip -selection clipboard -i'
+  alias pbpaste='xclip -selection clipboard -o'
 fi
 
 # Virtual Manager
-if [ -x "$(command -v virt-manager)" ]; then
-    export LIBVIRT_DEFAULT_URI="qemu:///system"
-fi
+command -v virt-manager >/dev/null 2>&1 && \
+  export LIBVIRT_DEFAULT_URI="qemu:///system"
 
-# Git aliases
-#
+######################
+# GIT
+######################
+
 if [ -x "$(command -v git)" ]; then
   alias gws="git status --short"
   alias gs="git status"
@@ -116,7 +136,11 @@ if [ -x "$(command -v git)" ]; then
   alias gm="git merge"
   alias gps="git push"
   alias gpl="git pull"
-  alias git-gc-all="git -c gc.reflogExpire=0 -c gc.reflogExpireUnreachable=0 -c gc.rerereresolved=0 -c gc.rerereunresolved=0 -c gc.pruneExpire=now gc"
+  alias git-gc-all='git -c gc.reflogExpire=0 \
+    -c gc.reflogExpireUnreachable=0 \
+    -c gc.rerereResolved=0 \
+    -c gc.rerereUnresolved=0 \
+    -c gc.pruneExpire=now gc'
 
   alias gcob="git branch | fzf | xargs git checkout"
 else
@@ -171,26 +195,36 @@ up() {
   do
     ups=$ups"../"
   done
-  cd $ups || exit
+  cd "$ups" || exit
 }
 
 cd() { builtin cd "$@" && ls -l;}            # ls after chdir
-mcd() { mkdir -p "$*"; cd "$*" || exit;}  # Create dir and go into it
+mcd() { mkdir -p "$1" && cd "$1" || return; } # Create dir and go into it
 
 # remove line n from a file (removeline N FILE)
 rmline() { sed -i "$1d" "$2"; }
 alias removeline="rmline"
 
 # Clean all OpenStack env variables
-os_clean() { unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD OS_REGION_NAME OS_PROJECT_NAME OS_TENANT_ID OS_IDENTITY_API_VERSION OS_ENDPOINT_TYPE OS_PROJECT_ID OS_INTERFACE; }
+os_clean() {
+  unset OS_AUTH_URL OS_TENANT_NAME OS_USERNAME OS_PASSWORD \
+        OS_REGION_NAME OS_PROJECT_NAME OS_TENANT_ID \
+        OS_IDENTITY_API_VERSION OS_ENDPOINT_TYPE \
+        OS_PROJECT_ID OS_INTERFACE
+}
 
 # Password generation
-genpass() { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-32}";echo; }
+genpass() {
+  local len=${1:-32}
+  LC_ALL=C tr -dc 'A-Za-z0-9_' < /dev/urandom | head -c "$len"
+  echo
+}
 
 # JWT functions
 jwtdecode() {
-  read i
-  echo -n $i | python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Header: ",jwt.get_unverified_header(e));print("Body: ",jwt.decode(e, options={"verify_signature": False}))'
+  local i
+  read -r i
+  printf '%s' "$i" |  python3 -c 'import jwt;import sys; e=sys.stdin.read();print("Header: ",jwt.get_unverified_header(e));print("Body: ",jwt.decode(e, options={"verify_signature": False}))'
 }
 
 jwtattack() {
@@ -232,7 +266,7 @@ esac
 ####
 ## SSH AGENT
 ####
-SSH_ENV="$HOME/.ssh/environment"
+readonly SSH_ENV="$HOME/.ssh/environment"
 
 start_agent() {
   echo "Initialising new SSH agent..."

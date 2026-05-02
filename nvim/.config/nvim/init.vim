@@ -27,6 +27,8 @@
     Plug 'jiangmiao/auto-pairs'
     Plug 'jceb/vim-orgmode'
 
+    Plug 'lervag/vimtex', { 'tag': 'v2.15' }
+
     call plug#end()
 " }
 
@@ -35,6 +37,7 @@
     set autoread                " Autoload file if it changes on disk
 
     set hidden                  " Allow buffer switching without saving
+    set nofoldenable            " Disable folding
 
     set undofile                " So is persistent undo ...
     set undolevels=1000         " Maximum number of changes that can be undone
@@ -182,6 +185,9 @@ nnoremap <c-l> <c-w>l
     nnoremap <leader>gr :Gread<CR>
     nnoremap <leader>gw :Gwrite<CR>
     nnoremap <leader>ge :Gedit<CR>
+    nnoremap <leader>gn :GitGutterNextHunk<CR>
+    nnoremap <leader>gP :GitGutterPrevHunk<CR>
+
 
     " fzf
     let g:fzf_buffers_jump = 1
