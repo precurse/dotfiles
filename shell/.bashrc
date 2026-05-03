@@ -1,40 +1,30 @@
 #!/bin/bash
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-  esac
+# Only run in interactive shells
+[[ $- != *i* ]] && return
 
-# Sourcing {
-[ -r "$HOME/.profile" ] && . "$HOME/.profile"
-[ -r "$HOME/.bashsec" ] && . "$HOME/.bashsec"
-[ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
-[ -r /usr/share/fzf/shell/key-bindings.bash ] && . /usr/share/fzf/shell/key-bindings.bash
-[ -r /usr/share/doc/fzf/examples/key-bindings.bash ] && . /usr/share/doc/fzf/examples/key-bindings.bash
+# ---- Sources ----
+for f in \
+  "$HOME/.profile" \
+  "$HOME/.bashsec" \
+  "$HOME/.git-prompt.sh" \
+  /usr/share/bash-completion/bash_completion \
+  /usr/share/fzf/shell/key-bindings.bash \
+  /usr/share/doc/fzf/examples/key-bindings.bash \
+  "$HOME/tools/source.sh"
+do
+  [[ -r "$f" ]] && source "$f"
+done
 
-# security-tools: https://github.com/precurse/security-tools
-[ -r "$HOME/tools/source.sh" ] && source "$HOME/tools/source.sh"
+export GIT_PS1_SHOWDIRTYSTATE=1
 
-# }
+# ---- OpenStack ----
+openstack_user() {
+  [[ -n "$OS_USERNAME" ]] && printf "OS:%s" "$OS_USERNAME"
+}
 
 function openstack_user {
   if [ -n "$OS_USERNAME" ]; then
     echo -n "OS:$OS_USERNAME"
-  fi
-}
-
-function git_branch {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* (*\([^)]*\))*/\1/'
-}
-
-function markup_git_branch {
-  if [[ -n $@ ]]; then
-    if [[ -z $(git status --porcelain 2> /dev/null | tail -n1) ]]; then
-      echo -e " \001\033[32m\002($*)\001\033[0m\002"
-    else
-      echo -e " \001\033[31m\002($*)\001\033[0m\002"
-    fi
   fi
 }
 
@@ -65,7 +55,7 @@ function bash_prompt {
 
   PS1=""
 
-  PS1+="$BR\t$RES:" # Time
+  PS1+="$R\t$RES:" # Time
 
   if [ $EXIT != 0 ]; then
       PS1+="${BR}\u${RES}"      # Add red if exit code non 0
@@ -75,7 +65,8 @@ function bash_prompt {
 
   PS1+="${BG}@\h:${RES}"                                # Hostname
   PS1+="${BB}\w${RES}"                                  # Location
-  PS1+="${BR}\$(markup_git_branch \$(git_branch)) ${RES}" # Git
+  PS1+='$(__git_ps1 " (%s)") ${RES} '
+
   PS1+="${Y}$(openstack_user)${RES}"                    # Openstack User
   PS1+="\n${BM}\$ ${RES}"                               # Tail
 
